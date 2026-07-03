@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Clear Mind, Clear Life — design system
+   Palette sampled from Dan's logo (black / gold / platinum). Type = Archivo
+   super-family to echo the geometric-grotesk wordmark. Restraint over glow.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --background: #0a0a0a;
+  --surface: #121212;
+  --surface-2: #191919;
+  --foreground: #f4f1ea;
+  --muted: #9a978e;
+  --muted-dim: #6b6960;
+
+  --primary: #f0c24a;        /* brand gold — used sparingly (buttons, key marks) */
+  --primary-dark: #c99a2e;
+  --primary-light: #f7d576;
+  --platinum: #d6d9dd;       /* the silver half of the logo */
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-dim: var(--muted-dim);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-platinum: var(--platinum);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────── */
+* { border-color: var(--border); }
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), var(--font-body), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+/* Anchor targets clear the fixed nav without leaving a dead gap. */
+:where(section, [id]) { scroll-margin-top: 5.5rem; }
+
+::selection { background: var(--primary); color: #0a0a0a; }
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #262626; }
+::-webkit-scrollbar-thumb:hover { background: #333; }
+
+/* ─── Layout helpers ───────────────────────────────────────────────────── */
+.container-tight { max-width: 74rem; margin-inline: auto; padding-inline: 1.5rem; }
+.container-narrow { max-width: 48rem; margin-inline: auto; padding-inline: 1.5rem; }
+
+/* ─── Kicker (quiet section label — replaces the loud gold eyebrow) ─────── */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.kicker::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: var(--border-strong);
+}
+
+/* ─── Buttons: ONE solid + ONE hairline. No glow, no pulse, no lift. ────── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+  background: var(--primary);
+  color: #0a0a0a;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  padding: 0.95rem 1.9rem;
+  border-radius: 7px;
+  transition: background 0.18s ease;
+}
+.btn-primary:hover { background: var(--primary-light); }
+
+.btn-line {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border: 1px solid var(--border-strong);
+  color: var(--foreground);
+  font-weight: 600;
+  padding: 0.85rem 1.7rem;
+  border-radius: 7px;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+.btn-line:hover { border-color: var(--foreground); }
+
+.link-quiet { color: var(--muted); transition: color 0.18s ease; }
+.link-quiet:hover { color: var(--foreground); }
+
+/* ─── Scroll reveal ────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* ─── Marquee (testimonials) ───────────────────────────────────────────── */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.3333%); } }
+.marquee-track { display: flex; width: max-content; animation: marquee 46s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ─── Motion preferences ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .marquee-track { animation: none !important; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
