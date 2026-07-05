@@ -10,9 +10,6 @@ out/
 *.log
 .DS_Store
 
-# Heavy testimonial video (host/stream properly before launch)
-public/testimonials/*.mp4
-
 # TypeScript / Next generated
 *.tsbuildinfo
 next-env.d.ts

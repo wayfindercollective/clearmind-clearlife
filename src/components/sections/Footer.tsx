@@ -48,13 +48,24 @@ export function Footer() {
                   Privacy
                 </a>
               </li>
+              <li>
+                <a href={`mailto:${b.supportEmail}`} className="text-sm link-quiet">
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-14 pt-8 border-t border-border">
           <p className="text-xs text-muted-dim leading-relaxed max-w-3xl">{content.footer.disclaimer}</p>
-          <p className="mt-4 text-xs text-muted-dim">© 2026 {b.name}. All rights reserved.</p>
+          <p className="mt-4 text-xs text-muted-dim">
+            Questions?{" "}
+            <a href={`mailto:${b.supportEmail}`} className="link-quiet underline underline-offset-2">
+              {b.supportEmail}
+            </a>
+          </p>
+          <p className="mt-2 text-xs text-muted-dim">© 2026 {b.name}. All rights reserved.</p>
         </div>
       </div>
     </footer>

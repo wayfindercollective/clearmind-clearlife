@@ -15,6 +15,7 @@ export const content = {
     logoMark: "/logo-mark.png",
     instagram: "https://www.instagram.com/", // [CONFIRM handle]
     youtube: "https://www.youtube.com/@clearmind-clearlife",
+    supportEmail: "support@wayfindercoaching.net",
     privacyUrl: "https://www.wayfindercollective.io/privacy",
     entity: "Wayfinder Coaching",
     // Public Wayfinder round-robin booking slug. Committed so it works on every deploy
