@@ -135,7 +135,8 @@ export const content = {
   apply: {
     kicker: "Apply",
     heading: "Apply for a call",
-    intro: "A few honest questions, then pick a time to talk. Takes about two minutes.",
+    intro: "A few short questions to see if the Clear Choice approach is a fit for you. Takes about two minutes.",
+    confidential: "Everything you share is private and confidential.",
     deRisk: "No hard sell on the call. If we can't help you, we'll tell you straight.",
   },
 
@@ -212,8 +213,16 @@ export const content = {
   },
 
   contact: {
-    smsConsent:
-      "I agree to receive SMS messages from Wayfinder Coaching about my application. Msg & data rates may apply. Reply STOP to opt out.",
+    // TCPA / 10DLC-compliant consent (informational/operational campaign).
+    // Seven load-bearing elements: brand · use-case · frequency · rates · STOP · HELP · no-third-party-share.
+    // [BRAND] = "Clear Mind, Clear Life" per handoff. If the 10DLC campaign is registered
+    // under Wayfinder, swap to "Wayfinder Coaching" - single-string change.
+    smsLine:
+      "By providing your phone number, you agree to receive SMS appointment reminders, booking confirmations, and account updates from Clear Mind, Clear Life. Message frequency may vary. Standard Message and Data Rates may apply. Reply STOP to opt out. Reply HELP for help. We will not share mobile information with third parties for promotional or marketing purposes.",
+    privacyLabel: "Privacy Policy",
+    privacyHref: "https://wayfindercollective.io/privacy",
+    termsLabel: "Terms of Service",
+    termsHref: "https://wayfindercollective.io/terms",
   },
 
   thankYou: {
@@ -223,10 +232,9 @@ export const content = {
     bookingHeading: "Book your call",
     vslHeading: "Watch this first",
     nextSteps: [
-      "Choose a time on the calendar, it takes about 30 seconds",
-      "Add it to your calendar so it doesn't slip",
+      "Book a time on the calendar",
       "Watch the short video below before we speak",
-      "Come honest. The straighter you are, the more we can do with the call.",
+      "Show up to the call being honest, the more you do that, the more we can do on the call",
     ],
   },
 } as const;

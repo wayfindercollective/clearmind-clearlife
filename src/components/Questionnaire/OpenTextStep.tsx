@@ -41,7 +41,7 @@ export function OpenTextStep({ question, subtext, placeholder, minLength, option
         }}
         placeholder={placeholder}
         rows={4}
-        className="mt-7 w-full resize-none rounded-xl border border-border bg-surface/60 px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
+        className="mt-7 w-full resize-none rounded-xl border border-border bg-background px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
       />
       {touched && !valid && (
         <p className="mt-2 text-sm text-primary-light">A few words is plenty - whatever feels true.</p>

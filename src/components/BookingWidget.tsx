@@ -11,7 +11,8 @@ export function BookingWidget() {
 
   useEffect(() => {
     if (!BOOKING_SLUG) return;
-    const base = `https://www.wayfindercollective.io/book/team/${BOOKING_SLUG}`;
+    // No-www is the canonical host (www 301-redirects here); avoids a redirect hop in the frame.
+    const base = `https://wayfindercollective.io/book/team/${BOOKING_SLUG}`;
     let qs = "";
     try {
       const raw = sessionStorage.getItem("bookingPrefill");
@@ -31,7 +32,7 @@ export function BookingWidget() {
     return () => clearTimeout(t);
   }, []);
 
-  const externalLink = BOOKING_SLUG ? `https://www.wayfindercollective.io/book/team/${BOOKING_SLUG}` : "#";
+  const externalLink = BOOKING_SLUG ? `https://wayfindercollective.io/book/team/${BOOKING_SLUG}` : "#";
 
   // Not configured (local review) — show a clear placeholder, never a broken iframe.
   if (!BOOKING_SLUG) {
@@ -50,34 +51,45 @@ export function BookingWidget() {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-surface" style={{ height: "calc(100vh - 4rem)", minHeight: 560 }}>
-      {!loaded && !timedOut && (
-        <div className="absolute inset-0 grid place-items-center">
-          <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-        </div>
-      )}
-
-      {timedOut && !loaded ? (
-        <div className="absolute inset-0 grid place-items-center p-8 text-center">
-          <div>
-            <p className="text-foreground font-medium mb-3">Taking longer than usual to load.</p>
-            <a href={externalLink} target="_blank" rel="noopener noreferrer" className="btn-primary">
-              Book Your Call Now
-            </a>
+    <div>
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface" style={{ height: "calc(100vh - 4rem)", minHeight: 560 }}>
+        {!loaded && !timedOut && (
+          <div className="absolute inset-0 grid place-items-center">
+            <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
           </div>
-        </div>
-      ) : (
-        url && (
-          <iframe
-            src={url}
-            title="Book your discovery call"
-            onLoad={() => setLoaded(true)}
-            allow="camera; microphone; payment"
-            className="w-full border-0"
-            style={{ height: "calc(100vh + 420px)", marginTop: -420 }}
-          />
-        )
-      )}
+        )}
+
+        {timedOut && !loaded ? (
+          <div className="absolute inset-0 grid place-items-center p-8 text-center">
+            <div>
+              <p className="text-foreground font-medium mb-3">Taking longer than usual to load.</p>
+              <a href={externalLink} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Book Your Call Now
+              </a>
+            </div>
+          </div>
+        ) : (
+          url && (
+            <iframe
+              src={url}
+              title="Book your discovery call"
+              onLoad={() => setLoaded(true)}
+              allow="camera; microphone; payment"
+              className="w-full border-0"
+              style={{ height: "calc(100vh + 420px)", marginTop: -420 }}
+            />
+          )
+        )}
+      </div>
+
+      {/* Always-available escape hatch: covers CSP frame-ancestors blocks, strict privacy
+          settings, etc. - the embed can silently fail without triggering the load timeout. */}
+      <p className="mt-3 text-center text-xs text-muted-dim">
+        Calendar not loading?{" "}
+        <a href={externalLink} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">
+          Open it in a new tab
+        </a>
+      </p>
     </div>
   );
 }

@@ -65,7 +65,7 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
                 "group flex items-center justify-between gap-4 rounded-xl border px-5 py-4 text-left transition-all",
                 active
                   ? "border-primary bg-primary/10"
-                  : "border-border bg-surface/50 hover:border-primary/50 hover:bg-surface"
+                  : "border-border bg-background hover:border-primary/50 hover:bg-surface"
               )}
             >
               <span className="text-lg text-foreground">{opt.label}</span>
@@ -95,7 +95,7 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
             }}
             placeholder={options.find((o) => o.value === otherOpen)?.textPlaceholder || "Say it in your own words..."}
             rows={3}
-            className="w-full resize-none rounded-xl border border-border bg-surface/60 px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
+            className="w-full resize-none rounded-xl border border-border bg-background px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
           />
           {touched && !otherValid && (
             <p className="mt-2 text-sm text-primary-light">A few words is all it needs.</p>

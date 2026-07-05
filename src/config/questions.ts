@@ -1,19 +1,20 @@
 /**
  * The funnel definition. 6 steps:
- *   Q1 choice (+ conditional "Something else" text) -> Q2 choice -> Q3 choice (investment)
- *   -> Q4 choice -> Q5 optional open -> Q6 contact.
+ *   Q1 situation (choice + conditional "Something else" text)
+ *   Q2 lifeArea (choice)
+ *   Q3 drinkingPattern (choice - call-prep / readiness + safety signal)
+ *   Q4 readiness (choice, scored)
+ *   Q5 investment (choice, scored) - money question sits right before contact
+ *   Q6 contact (+ optional SMS consent)
  *
  * ⚠️ CONTRACT: the `value` strings on scored options are matched character-for-character
  * by Wayfinder's scoring rules. Copy the final strings out of Wayfinder admin before
  * launch - never retype. A one-character difference = lead scores 0, no rep paged.
  *
- * ⚠️ Q3 (investment) REPLACES the old income question by client decision (July 2026).
- * Wayfinder-side scoring must be remapped before deploy:
- *   "Yes, comfortably"        -> highest score band
- *   "Yes, with some planning" -> middle band
- *   "Not right now"           -> lowest band
- * Also update the CRM field label + any sales notifications/call-prep views that
- * displayed the old income value. Do not ship front-end without the scoring remap.
+ * ⚠️ Q5 investment scoring bands (remap pending Wayfinder admin):
+ *   "Ready to invest if it's a fit"   -> highest band
+ *   "Depends on the commitment"       -> middle band
+ *   "Not right now"                   -> lowest band
  */
 
 export type ChoiceOption = {
@@ -33,14 +34,12 @@ export type Question =
       subtext?: string;
       placeholder?: string;
       minLength: number;
-      /** Skippable with no validation; empty value is simply omitted. */
       optional?: boolean;
     }
   | {
       id: string;
       type: "choice";
       fieldName: string;
-      /** Where the conditional "requiresText" answer text is stored (e.g. situationDetail). */
       detailFieldName?: string;
       question: string;
       subtext?: string;
@@ -77,39 +76,42 @@ export const questions: Question[] = [
     ],
   },
   {
-    id: "investment",
+    id: "drinkingPattern",
     type: "choice",
-    fieldName: "investment",
-    question: "If this turns out to be a fit, are you in a position to invest in six months of private coaching?",
-    // Scoring contract - see file header. Strings must match Wayfinder admin exactly.
+    fieldName: "drinkingPattern",
+    question: "Where are you in your drinking pattern right now?",
+    subtext: "This helps us understand the best timing and structure for your call.",
     options: [
-      { label: "Yes, comfortably", value: "Yes, comfortably" },
-      { label: "Yes, with some planning", value: "Yes, with some planning" },
-      { label: "Not right now", value: "Not right now" },
+      { label: "I haven't had a drink in 7+ days", value: "Haven't drunk in 7+ days" },
+      { label: "I drank within the past few days", value: "Within the past few days" },
+      { label: "I drank yesterday", value: "Yesterday" },
+      { label: "I've had a drink today", value: "Today" },
     ],
   },
   {
     id: "readiness",
     type: "choice",
     fieldName: "readiness",
-    question: "How ready are you to change this in the next 6 months?",
+    question: "How ready are you to start this now?",
     subtext: "There's no wrong answer. Be honest.",
     options: [
-      { label: "I am ready to start now", value: "Ready to start now" },
+      { label: "Ready to start, I need to change", value: "Ready to start, I need to change" },
       { label: "Serious - I just need the right system", value: "Serious, need the system" },
       { label: "Exploring my options", value: "Exploring options" },
-      { label: "Just curious for now", value: "Just curious" },
+      { label: "Not ready yet", value: "Not ready yet" },
     ],
   },
   {
-    id: "notes",
-    type: "open",
-    fieldName: "notes",
-    question: "Anything else we should know before the call?",
-    subtext: "Optional. Goes straight to Dan.",
-    placeholder: "Whatever you think is worth saying...",
-    minLength: 0,
-    optional: true,
+    id: "investment",
+    type: "choice",
+    fieldName: "investment",
+    question: "If the Clear Choice Program turns out to be a fit, how do you feel about investing in yourself?",
+    subtext: "This just helps us have an honest conversation on the call.",
+    options: [
+      { label: "If it's the right fit, I'm ready to invest", value: "Ready to invest if it's a fit" },
+      { label: "I'm not sure, it depends on a few things lining up and knowing the commitment required first", value: "Depends on the commitment" },
+      { label: "I'm not in a position to invest right now", value: "Not right now" },
+    ],
   },
   {
     id: "contact",

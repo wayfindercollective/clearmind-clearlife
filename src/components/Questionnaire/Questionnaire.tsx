@@ -108,10 +108,10 @@ export function Questionnaire() {
     const data: LeadData = {
       situation: responses.situation || "",
       situationDetail: responses.situationDetail || "",
+      drinkingPattern: responses.drinkingPattern || "",
       lifeArea: responses.lifeArea || "",
-      investment: responses.investment || "",
       readiness: responses.readiness || "",
-      notes: responses.notes || "",
+      investment: responses.investment || "",
       firstName: contact.firstName.trim(),
       lastName: contact.lastName.trim(),
       email: contact.email.trim(),
@@ -173,15 +173,6 @@ export function Questionnaire() {
     <div className="mx-auto max-w-xl">
       <ProgressBar step={step} total={TOTAL_STEPS} />
 
-      {step > 0 && !submitting && (
-        <button type="button" onClick={back} className="mb-6 inline-flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Back
-        </button>
-      )}
-
       <div key={step} className="reveal is-visible">
         {q.type === "open" && (
           <OpenTextStep
@@ -232,6 +223,19 @@ export function Questionnaire() {
           />
         )}
       </div>
+
+      {step > 0 && !submitting && (
+        <button
+          type="button"
+          onClick={back}
+          className="mt-8 inline-flex items-center gap-2 text-sm text-muted hover:text-primary transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Back
+        </button>
+      )}
     </div>
   );
 }

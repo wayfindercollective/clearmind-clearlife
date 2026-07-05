@@ -1,6 +1,8 @@
 import { content } from "@/config/content";
+import { andrewTestimonial } from "@/config/testimonials";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { TestimonialVideo } from "@/components/TestimonialVideo";
 
 export function HowItWorks() {
   const s = content.howItWorks;
@@ -20,6 +22,12 @@ export function HowItWorks() {
             </ScrollReveal>
           ))}
         </div>
+
+        {/* A real client call with Dan - the ultrawide clip lives here, next to the
+            "get on a call" step, and breaks up the section's text. */}
+        <ScrollReveal className="mt-16">
+          <TestimonialVideo v={andrewTestimonial} />
+        </ScrollReveal>
       </div>
     </section>
   );

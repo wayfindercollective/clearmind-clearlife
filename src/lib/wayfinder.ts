@@ -7,12 +7,12 @@ export type LeadData = {
   // Q1 categorical + conditional detail
   situation: string;
   situationDetail: string; // only set when Q1 = "Something else"
+  // call-prep context
+  drinkingPattern: string; // Q3
   // scored answers
   lifeArea: string; // Q2
-  investment: string; // Q3 (replaces income - see questions.ts scoring note)
   readiness: string; // Q4
-  // optional call-prep note
-  notes: string; // Q5
+  investment: string; // Q5 (replaces income - see questions.ts scoring note)
   // contact
   firstName: string;
   lastName: string;
@@ -31,12 +31,11 @@ export function buildWayfinderPayload(d: LeadData, pendingId: string) {
   const utm = getAttributionParams();
   const scored = {
     lifeArea: d.lifeArea,
-    investment: d.investment,
     readiness: d.readiness,
+    investment: d.investment,
   };
-  const context: Record<string, string> = { situation: d.situation };
+  const context: Record<string, string> = { situation: d.situation, drinkingPattern: d.drinkingPattern };
   if (d.situationDetail) context.situationDetail = d.situationDetail;
-  if (d.notes) context.notes = d.notes;
 
   return {
     pendingId,
@@ -46,7 +45,13 @@ export function buildWayfinderPayload(d: LeadData, pendingId: string) {
     lastName: d.lastName,
     name: `${d.firstName} ${d.lastName}`.trim(),
     phone: d.fullPhone,
+    // SMS consent - top-level boolean is the wire contract. Three keys cover older +
+    // newer Wayfinder handlers; all default false, never true. This is an
+    // operational/informational campaign (reminders/confirmations/updates), so the
+    // single checkbox grants operational consent, not marketing.
     smsConsent: d.smsConsent,
+    smsConsentOperational: d.smsConsent,
+    smsConsentMarketing: false,
     // scored (flat)
     ...scored,
     // call-prep context (flat; extra top-level fields land in rawResponses)

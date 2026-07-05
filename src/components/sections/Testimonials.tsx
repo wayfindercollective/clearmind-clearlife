@@ -1,58 +1,7 @@
-"use client";
-
-import { useRef, useState } from "react";
-import { videoTestimonials, writtenTestimonials, type VideoTestimonial } from "@/config/testimonials";
+import { writtenTestimonials } from "@/config/testimonials";
 import { content } from "@/config/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CTAButton } from "@/components/ui/CTAButton";
-import { track } from "@/lib/analytics";
-
-function TestimonialVideo({ v }: { v: VideoTestimonial }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-
-  const play = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.muted = false;
-    el.controls = true;
-    el.play().catch(() => {});
-    setPlaying(true);
-    track("video_played", { testimonial: v.name });
-  };
-
-  return (
-    <figure>
-      <div className="relative overflow-hidden rounded-lg border border-border bg-surface aspect-[4/5]">
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video
-          ref={ref}
-          src={v.src}
-          poster={v.poster}
-          playsInline
-          preload="metadata"
-          className="h-full w-full object-cover"
-          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
-        />
-        {!playing && (
-          <button
-            type="button"
-            onClick={play}
-            className="absolute inset-0 grid place-items-center bg-black/35 hover:bg-black/25 transition-colors"
-            aria-label={`Play ${v.name}'s testimonial`}
-          >
-            <span className="grid place-items-center h-14 w-14 rounded-full bg-primary text-black">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-          </button>
-        )}
-      </div>
-      <figcaption className="mt-3 text-sm text-muted text-center">{v.caption}</figcaption>
-    </figure>
-  );
-}
 
 export function Testimonials() {
   const s = content.results;
@@ -60,15 +9,10 @@ export function Testimonials() {
     <section id="results" className="py-24 md:py-32 border-t border-border overflow-hidden">
       <div className="container-tight">
         <SectionHeading kicker={s.kicker} heading={s.heading} intro={s.intro} />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 max-w-3xl mx-auto">
-          {videoTestimonials.map((v) => (
-            <TestimonialVideo key={v.name} v={v} />
-          ))}
-        </div>
       </div>
 
       {/* Written / screenshot testimonials (real client assets from Dan) */}
-      <div className="mt-16 relative">
+      <div className="mt-14 relative">
         <div className="marquee-track gap-5">
           {[0, 1, 2].map((copy) =>
             writtenTestimonials.map((src, i) => (
