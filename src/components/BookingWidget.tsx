@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { content } from "@/config/content";
 
-const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG;
+// Env override wins (e.g. a test slug on preview); otherwise the committed slug is used.
+const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG || content.brand.bookingSlug;
 
 export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);

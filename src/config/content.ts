@@ -17,6 +17,9 @@ export const content = {
     youtube: "https://www.youtube.com/@clearmind-clearlife",
     privacyUrl: "https://www.wayfindercollective.io/privacy",
     entity: "Wayfinder Coaching",
+    // Public Wayfinder round-robin booking slug. Committed so it works on every deploy
+    // without env setup; NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG overrides it if set.
+    bookingSlug: "dan-team",
     nav: [
       { label: "The cost", href: "#problem" },
       { label: "Results", href: "#results" },
