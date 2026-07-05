@@ -78,7 +78,7 @@ export function BookingWidget() {
               onLoad={() => setLoaded(true)}
               allow="camera; microphone; payment"
               className="w-full border-0"
-              style={{ height: "calc(100vh + 420px)", marginTop: -420 }}
+              style={{ height: "calc(100vh + 370px)", marginTop: -370 }}
             />
           )
         )}
