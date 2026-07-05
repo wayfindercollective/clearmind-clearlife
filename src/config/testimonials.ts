@@ -2,16 +2,17 @@
 
 export type VideoTestimonial = {
   name: string;
-  role?: string;
+  /** Shown under the tile. Real age/profession pending from Dan - do NOT invent. */
+  caption: string;
   src: string;
   poster?: string;
 };
 
-// Both clips are portrait (Andrew is 1536x1920 = 4:5). No poster set — the tile shows
-// each video's own first frame (the previous greg-poster was a different, landscape clip).
+// Both clips are portrait (Andrew is 1536x1920 = 4:5). No poster set - the tile shows
+// each video's own first frame.
 export const videoTestimonials: VideoTestimonial[] = [
-  { name: "Greg Atkinson", role: "Business owner", src: "/testimonials/greg.mp4" },
-  { name: "Andrew H.", role: "Professional", src: "/testimonials/andrew.mp4" },
+  { name: "Greg Atkinson", caption: "Greg Atkinson, [AGE], [PROFESSION]", src: "/testimonials/greg.mp4" },
+  { name: "Andrew H.", caption: "Andrew H., [AGE], [PROFESSION]", src: "/testimonials/andrew.mp4" },
 ];
 
 /** Screenshot / written testimonials for the social-proof marquee. */

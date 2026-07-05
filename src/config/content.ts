@@ -1,8 +1,10 @@
 /**
- * ALL site copy. Voice: Dan Hunter, peer-to-peer to business owners — direct,
- * concrete, unsentimental. No hype words, no "Not X. Just Y." headlines, each
- * phrase used once. Hyphens, never em dashes. No unverified stats.
- * Sourced from Dan's pitch deck / program / framework docs (see ASSETS.md).
+ * ALL site copy - v2 FINAL per Nathan's enhanced handoff (July 2026).
+ * Voice: Dan Hunter, peer-to-peer - direct, concrete, unsentimental.
+ * Rules: no hype words, hyphens never em dashes, no unverified stats, natural
+ * contractions. The initial call is handled by THE TEAM (no first-person for the
+ * initial call); first-person for the program itself ("a private line to me") stays.
+ * Program is presented as six months only - no 13-week references anywhere.
  */
 
 export const content = {
@@ -17,9 +19,9 @@ export const content = {
     entity: "Wayfinder Coaching",
     nav: [
       { label: "The cost", href: "#problem" },
-      { label: "The method", href: "#method" },
-      { label: "The program", href: "#program" },
       { label: "Results", href: "#results" },
+      { label: "The method", href: "#method" },
+      { label: "How it works", href: "#program" },
       { label: "FAQ", href: "#faq" },
     ],
   },
@@ -29,94 +31,77 @@ export const content = {
   },
 
   hero: {
-    kicker: "Quit drinking · for business owners",
-    headline: "Get alcohol out of the way",
-    headlineDim: "of the life you are building.",
+    kicker: "Quit drinking · private coaching for busy professionals",
+    headline: "You said you'd cut down.",
+    headlineDim: "This time, make it stick.",
     subhead:
-      "A private program for business owners and professionals who function fine on the outside and know drinking is costing them on the inside. You keep running your life. We get the alcohol handled.",
+      "Has the drinking stopped being a choice? Maybe it was a scare at the doctor's. Maybe one hangover too many. This is where it turns.",
     cta: "Apply for a call",
-    meta: "Six-month program · 1:1 plus weekly group calls · Founded by Dan Hunter, sober since 2017",
   },
 
   performanceTax: {
     kicker: "The cost",
-    heading: "The real cost of high-functioning drinking",
-    intro:
-      "On paper you are doing well. In private you know you are running at 70 to 80 percent of what you have got. Nobody else sees it, which is exactly why it keeps going.",
+    heading: "What it's costing you",
+    intro: "It rarely looks like a crisis. Your body doesn't shout about this stuff - it whispers.",
     points: [
-      "Mornings you quietly write off, and decisions that come slower than they should",
-      "A shorter fuse with your team and the people at home",
-      "Confidence and drive that slip a little further each year",
-      "The thought that if someone on your team worked like this, you would have a word with them",
+      "Wrecked sleep, rising blood pressure, mornings where your heart races before the day begins",
+      "The fog is costing you at work. In the judgement calls. In the edge you used to have.",
+      "Sunday's promises don't make it to Thursday, and every restart costs a little more self-respect",
+      "You're at the table with the people you love, but you're not really there",
     ],
-    closer: "Most people I work with are not in crisis. They are just done operating with the handbrake on.",
   },
 
   whatThisIs: {
     kicker: "What this is",
-    heading: "I treat this like a business problem, because that is what it is",
+    heading: "No labels, rehab or church basements",
     paragraphs: [
-      "There is no group circle and no talk of being powerless. We look at drinking the way you would look at anything else draining time, money and focus out of your operation, then we go and fix the inputs.",
-      "You will not be asked to call yourself an alcoholic or swear off it forever on day one. You get a clear method and a small room of people who run businesses and think the way you do.",
-      "And we work on why you drink, not only whether you drink. Change the reason and the behaviour follows. That is the part that holds once the early motivation wears off.",
+      "\"Am I an alcoholic?\" is the wrong question. The one worth answering: is alcohol giving you more than it's taking? You wouldn't be reading this if the answer was yes.",
+      "This is private coaching built around a method. We work on why you drink - the stress, the habit, the story that starts when the glass is already in your hand. So when you're standing in the empty kitchen after a brutal day, there's an actual decision happening, and you're the one making it.",
     ],
+  },
+
+  results: {
+    kicker: "Results",
+    heading: "They were in your situation",
+    intro: "Real clients, in their own words.",
+    cta: "Apply for a call",
   },
 
   framework: {
     kicker: "The method",
     heading: "The Clear Choice Framework",
-    lede: "One question you can run in the moment, so a drink becomes a decision instead of a reflex. Instead of 'do I fancy one', you learn to ask 'does this match what I am building'.",
+    lede: "One question you can run in the moment. Right now the only thing you're asking is \"do I fancy one\", and the answer is always yes. You'll learn to ask something with more weight behind it: \"does this match the life I'm building?\"",
     principles: [
-      { key: "Pause", title: "Pause", body: "Put a gap between the urge and the pour. That gap is where the whole thing turns." },
-      { key: "Expose", title: "Expose", body: "Name what you are telling yourself the drink will do. Relax you, reward you, switch you off." },
-      { key: "Test", title: "Test", body: "Hold that story against your own evidence: your sleep, your next morning, your temper, your numbers." },
-      { key: "Choose", title: "Choose", body: "Decide as the person you are becoming, not the tired version of you at 8pm." },
+      { key: "Pause", title: "Pause", body: "Put a gap between the urge and the pour." },
+      { key: "Expose", title: "Expose", body: "Name what you're telling yourself the drink will do." },
+      { key: "Test", title: "Test", body: "Hold that story against your own evidence: the sleep, the 3am wake-ups, the mood, the mornings." },
+      { key: "Choose", title: "Choose", body: "Make the decision you'll be glad about at 6am." },
     ],
-    closer: "Willpower runs out. A better question, asked at the right moment, does not.",
+    closer: "Willpower runs out. A better question, asked at the right moment, doesn't.",
   },
 
   howItWorks: {
-    kicker: "The program",
+    kicker: "How it works",
     heading: "How the six months run",
     steps: [
-      { n: "01", title: "Apply and talk", body: "You fill in the form and we get on a call. If I do not think I can help you, I will say so." },
-      { n: "02", title: "The 12-week intensive", body: "Weekly group calls plus 1:1 time. We steady the first month, then rebuild your work, social life and identity around it." },
-      { n: "03", title: "Drill the framework", body: "You run the Clear Choice Framework on real situations - client dinners, travel, the Friday wind-down - until it is automatic." },
-      { n: "04", title: "Maintenance and the hotline", body: "Months four to six protect what you built, with a private line for the wobble at 9pm on a Tuesday." },
+      { n: "01", title: "Apply and talk", body: "You fill in the form, then get on a call with my team. We'll tell you straight whether we can help you or not." },
+      { n: "02", title: "Rebuild", body: "We steady things first, then you run the Clear Choice Framework on the real stuff - client dinners, travel, the Friday wind-down - until it's automatic." },
+      { n: "03", title: "Protect", body: "Then we make sure it holds. Ongoing support while the change beds in, including a private line to me for the Tuesday night when you're about to talk yourself into a drink." },
     ],
   },
 
   outcomes: {
     kicker: "What changes",
     heading: "What you get back",
-    intro: "Less about removing a drink, more about what fills the space it leaves.",
     items: [
-      "Mornings that start sharp instead of foggy",
-      "Sleep that holds, and the mood that comes with it",
-      "Lower anxiety and cleaner decisions under pressure",
-      "Energy, drive and libido back where they used to be",
-      "You doing the things you said you would do, again",
-      "Full attention on the business instead of half of it",
-      "More of you in the room with your family",
-      "The quiet proof that you can run at full clarity without it",
+      "Waking up at 6am clear headed",
+      "Energy, libido and the numbers your doctor cares about, all moving the right way",
+      "Sticking to your word and doing the things you said you'd do",
+      "Dealing with pressure instead of drowning it on a Friday night",
+      "The low hum of anxiety gone from the background",
+      "Evenings where you're properly there with your kids and your partner",
     ],
-  },
-
-  results: {
-    kicker: "Results",
-    heading: "They were where you are now",
-    intro: "Real clients, in their own words. Business owners and professionals who got the alcohol handled and kept building.",
-  },
-
-  whyItWorks: {
-    kicker: "Why it sticks",
-    heading: "Why this holds when the last attempt did not",
-    cards: [
-      { title: "Root cause, not white-knuckling", body: "We change the thinking behind the drink, so you are not fighting yourself every evening for the rest of your life." },
-      { title: "Built for a full calendar", body: "Client dinners, travel, deals closing, stress stacking. The plan assumes your real week, not a quiet one." },
-      { title: "Support at the wrong moment", body: "A private line for the Tuesday night when you are about to talk yourself into one. That is when it counts." },
-    ],
-    stats: [] as { value: string; label: string }[],
+    cta: "Apply for a call",
   },
 
   whoItsFor: {
@@ -124,62 +109,92 @@ export const content = {
     heading: "Who this is for",
     forHeading: "This is for you if",
     forItems: [
-      "You run a business or carry real responsibility at work",
-      "You look fine from the outside and know the inside story",
-      "You want this handled as performance, not a moral failing",
-      "You are ready to be honest and do the work",
+      "Something shifted recently: a scare, a warning, a look on someone's face you can't unsee",
+      "You want this dealt with privately, without a label attached",
+      "You're ready to be straight with yourself",
     ],
     notHeading: "This is not for you if",
     notItems: [
-      "You want a hack or a patch, not a change",
-      "You want to keep negotiating your way back to moderate drinking",
-      "You are not willing to look at this straight",
-      "You are physically dependent and need a medical detox first. See a doctor - that comes before any coaching.",
+      "You're after a 30-day reset or a quick trick, and aren't prepared to put in the work",
+      "You're not ready to be honest about what it's taking from you",
+      "You're physically dependent and need a medical detox first. See a doctor - that comes before any coaching.",
     ],
   },
 
   about: {
     kicker: "Dan Hunter",
-    heading: "I stopped in 2017. My revenue went up, not down.",
+    heading: "I quit in 2017 - not from rock bottom, from frustration.",
     paragraphs: [
-      "For years I looked like I had it together while running at half of what I had. I was not the man in the gutter. I was high-functioning, which is the version nobody stages an intervention for.",
-      "Then I stopped. The fog lifted, the mornings came back, and the work got sharper. The thing I was scared to lose turned out to be the thing holding me back.",
-      "I built Clear Mind, Clear Life to hand other business owners the method and the in-the-moment support I had to work out the hard way.",
+      "I was the high-functioning version. The one nobody stages an intervention for. Good job, full life, but there was a growing gap between how things looked from the outside and how it really felt to me.",
+      "So I stopped. Not quickly or easily. I made years of mistakes. But eventually, I stopped. The fog lifted, the mornings came back, and everything I thought alcohol was helping me cope with got easier without it. Turns out the thing I was scared to lose was the thing in the way.",
+      "Clear Mind, Clear Life is the method I wish someone had handed me at the start - for people who want this sorted quietly and for good.",
     ],
     portrait: "/dan-portrait.jpg",
+  },
+
+  apply: {
+    kicker: "Apply",
+    heading: "Apply for a call",
+    intro: "A few honest questions, then pick a time to talk. Takes about two minutes.",
+    deRisk: "No hard sell on the call. If we can't help you, we'll tell you straight.",
   },
 
   faq: {
     kicker: "Questions",
     heading: "Straight answers",
     items: [
-      { q: "Is this AA or a 12-step program?", a: "No. There is no label to accept and no powerlessness to admit. We treat drinking as a performance problem and give you a method to solve it." },
-      { q: "Do I have to quit forever or call myself an alcoholic?", a: "No. This is about the choices you make and the person you are becoming, not a title you have to wear. The aim is simple: make not drinking the obvious call and prove to yourself you run better without it." },
-      { q: "I have tried to stop before and it did not last. Why would this?", a: "Because we fix the reason behind the drink, not only the drink, and you get real support in the exact moments most programs leave you on your own." },
-      { q: "How much time does it take?", a: "Weekly group calls, 1:1 time as you need it, and a short course you work through at your pace. Most of the change happens in decisions you were already making, made differently." },
-      { q: "How long is the program?", a: "Six months. A 12-week intensive to steady things and rebuild, then three months of maintenance to protect what you built and push on the business." },
-      { q: "What does it cost?", a: "We cover that on the call, once we both know it is a fit. It is a premium program with direct access to me, priced accordingly." },
-      { q: "What happens if I slip?", a: "You do not spiral. We look at which part of the framework broke down, fix it, and move on. A slip becomes information, not proof you are broken." },
-      { q: "Is it private?", a: "Completely. Your 1:1 work stays between us, and nothing you share leaves the room." },
+      {
+        q: "Is this AA or a 12-step program?",
+        a: "No. No circle, no label, nobody making you say you're powerless. We treat drinking as a thinking problem with a practical fix, and you do it without putting your life on pause.",
+      },
+      {
+        q: "Do I have to call myself an alcoholic, or promise never to drink again?",
+        a: "No and no. Labels do nothing for you, so we skip them. You make a clear decision for the next stretch, see how much better life runs, and decide the long term from there - with a clear head.",
+      },
+      {
+        q: "I've stopped before and it didn't last. Why would this be different?",
+        a: "Because willpower was doing all the work last time. It did for me too, for years. This time you get a method for the moments that beat you, and someone in your corner while they're happening - which is exactly what Monday-morning resolutions are missing.",
+      },
+      {
+        q: "My health is already paying for it. Is it too late?",
+        a: "For most people, no. Bodies are forgiving once the alcohol stops, and people are routinely surprised how quickly sleep, energy and blood work turn around. But I'm a coach, not a doctor - if something's worrying you, get it checked either way. If you're physically dependent, a medical detox comes first. Then we make the change permanent.",
+      },
+      {
+        q: "How long will it take?",
+        a: "Six months. We steady things and rebuild first, then it's ongoing support so the change survives contact with real life. Week to week it's built around your schedule, and we'll walk you through exactly how it runs on the call. No retreats, no clinics - nothing that shows up in your diary as anything other than a meeting.",
+      },
+      {
+        q: "What does it cost?",
+        a: "We talk about it on the call, once we both know it's a fit.",
+      },
+      {
+        q: "What happens if I slip?",
+        a: "You don't spiral. We look at where the implementation of the framework gave way, fix it, and carry on. Nobody resets your counter to zero.",
+      },
+      {
+        q: "Is it private?",
+        a: "Completely. It's one of the reasons people choose this over anything with a waiting room. Your 1:1 work stays between us.",
+      },
     ],
   },
 
   bottomCta: {
     kicker: "Next step",
-    heading: "Let's get the alcohol handled.",
-    subhead: "Fill in the form and book a call. We will map out what six months without drinking does for you and the business.",
+    heading: "Let's get this handled.",
+    subhead:
+      "Fill in the form and book a call - straight answers and a clear picture of what six months from now looks like. You'll have convinced yourself 'it's not that big of a deal' by Friday. Do something with it while it's still loud.",
     cta: "Apply for a call",
   },
 
   footer: {
-    tagline: "Quit drinking without putting your life on hold. Coaching for business owners and professionals.",
+    tagline: "Private coaching to quit drinking. For people with a lot to lose - and a lot to get back.",
     columns: [
       {
         title: "Program",
         links: [
           { label: "The cost", href: "#problem" },
           { label: "The method", href: "#method" },
-          { label: "How it runs", href: "#program" },
+          { label: "How it works", href: "#program" },
           { label: "FAQ", href: "#faq" },
         ],
       },
@@ -209,9 +224,9 @@ export const content = {
     vslHeading: "Watch this first",
     nextSteps: [
       "Choose a time on the calendar, it takes about 30 seconds",
-      "Add it to your calendar so it does not slip",
+      "Add it to your calendar so it doesn't slip",
       "Watch the short video below before we speak",
-      "Come honest. The straighter you are, the more I can do with the call.",
+      "Come honest. The straighter you are, the more we can do with the call.",
     ],
   },
 } as const;

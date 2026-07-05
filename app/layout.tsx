@@ -24,13 +24,13 @@ const SITE_URL = "https://www.clearmindclearlife.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Clear Mind, Clear Life — Break Free From Alcohol",
+  title: "Clear Mind, Clear Life - Break Free From Alcohol",
   description:
-    "A private coaching program for business owners and professionals who want to remove alcohol as a performance leak — without labels, rehab, or willpower. Built around the Clear Choice Framework.",
+    "Private coaching to quit drinking without labels, rehab or rock bottom. For busy professionals who want it sorted quietly and for good. Built on the Clear Choice Framework by Dan Hunter, sober since 2017.",
   openGraph: {
-    title: "Clear Mind, Clear Life — Break Free From Alcohol",
+    title: "Clear Mind, Clear Life - Break Free From Alcohol",
     description:
-      "Remove alcohol as a performance leak. A private program for business owners and professionals, built on the Clear Choice Framework.",
+      "Private coaching to quit drinking without labels, rehab or rock bottom. Built on the Clear Choice Framework by Dan Hunter, sober since 2017.",
     url: SITE_URL,
     siteName: "Clear Mind, Clear Life",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Clear Mind, Clear Life" }],
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Clear Mind, Clear Life — Break Free From Alcohol",
-    description: "Remove alcohol as a performance leak. Built on the Clear Choice Framework.",
+    title: "Clear Mind, Clear Life - Break Free From Alcohol",
+    description: "Private coaching to quit drinking without labels, rehab or rock bottom.",
     images: ["/og-image.png"],
   },
   robots: { index: true, follow: true },

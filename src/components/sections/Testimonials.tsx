@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { videoTestimonials, writtenTestimonials, type VideoTestimonial } from "@/config/testimonials";
 import { content } from "@/config/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { CTAButton } from "@/components/ui/CTAButton";
 import { track } from "@/lib/analytics";
 
 function TestimonialVideo({ v }: { v: VideoTestimonial }) {
@@ -21,36 +22,35 @@ function TestimonialVideo({ v }: { v: VideoTestimonial }) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-lg border border-border bg-surface aspect-[4/5]">
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video
-        ref={ref}
-        src={v.src}
-        poster={v.poster}
-        playsInline
-        preload="metadata"
-        className="h-full w-full object-cover"
-        style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
-      />
-      {!playing && (
-        <button
-          type="button"
-          onClick={play}
-          className="absolute inset-0 grid place-items-center bg-black/35 hover:bg-black/25 transition-colors"
-          aria-label={`Play ${v.name}'s testimonial`}
-        >
-          <span className="grid place-items-center h-14 w-14 rounded-full bg-primary text-black">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-          <span className="absolute bottom-4 left-4 text-left">
-            <span className="block font-semibold text-foreground">{v.name}</span>
-            {v.role && <span className="block text-xs text-muted">{v.role}</span>}
-          </span>
-        </button>
-      )}
-    </div>
+    <figure>
+      <div className="relative overflow-hidden rounded-lg border border-border bg-surface aspect-[4/5]">
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video
+          ref={ref}
+          src={v.src}
+          poster={v.poster}
+          playsInline
+          preload="metadata"
+          className="h-full w-full object-cover"
+          style={{ willChange: "transform", backfaceVisibility: "hidden", transform: "translateZ(0)" }}
+        />
+        {!playing && (
+          <button
+            type="button"
+            onClick={play}
+            className="absolute inset-0 grid place-items-center bg-black/35 hover:bg-black/25 transition-colors"
+            aria-label={`Play ${v.name}'s testimonial`}
+          >
+            <span className="grid place-items-center h-14 w-14 rounded-full bg-primary text-black">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </button>
+        )}
+      </div>
+      <figcaption className="mt-3 text-sm text-muted text-center">{v.caption}</figcaption>
+    </figure>
   );
 }
 
@@ -85,6 +85,10 @@ export function Testimonials() {
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-background to-transparent" />
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-background to-transparent" />
+      </div>
+
+      <div className="container-tight mt-14 text-center">
+        <CTAButton location="results" label={s.cta} />
       </div>
     </section>
   );

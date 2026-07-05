@@ -9,17 +9,43 @@ type Props = {
   subtext?: string;
   options: ChoiceOption[];
   value: string;
-  onSelect: (value: string) => void; // sets answer + auto-advances
+  detailValue?: string;
+  /** Advances the funnel. `detail` carries the conditional text for requiresText options. */
+  onSelect: (value: string, detail?: string) => void;
+  onBlocked?: () => void;
 };
 
-export function ChoiceStep({ question, subtext, options, value, onSelect }: Props) {
+export function ChoiceStep({ question, subtext, options, value, detailValue, onSelect, onBlocked }: Props) {
   const [pending, setPending] = useState<string | null>(null);
+  // Which requiresText option is open (restored when returning to an answered step).
+  const [otherOpen, setOtherOpen] = useState<string | null>(() => {
+    const match = options.find((o) => o.requiresText && o.value === value);
+    return match ? match.value : null;
+  });
+  const [otherText, setOtherText] = useState(detailValue || "");
+  const [touched, setTouched] = useState(false);
 
-  const choose = (v: string) => {
+  const otherValid = otherText.trim().length >= 2;
+
+  const choose = (opt: ChoiceOption) => {
     if (pending) return;
-    setPending(v);
+    if (opt.requiresText) {
+      setOtherOpen(opt.value);
+      return;
+    }
+    setOtherOpen(null);
+    setPending(opt.value);
     // brief highlight, then auto-advance (no Next button)
-    setTimeout(() => onSelect(v), 300);
+    setTimeout(() => onSelect(opt.value), 300);
+  };
+
+  const submitOther = () => {
+    if (!otherOpen) return;
+    if (otherValid) onSelect(otherOpen, otherText.trim());
+    else {
+      setTouched(true);
+      onBlocked?.();
+    }
   };
 
   return (
@@ -29,12 +55,12 @@ export function ChoiceStep({ question, subtext, options, value, onSelect }: Prop
 
       <div className="mt-7 grid gap-3">
         {options.map((opt) => {
-          const active = pending === opt.value || (!pending && value === opt.value);
+          const active = pending === opt.value || otherOpen === opt.value || (!pending && !otherOpen && value === opt.value);
           return (
             <button
               key={opt.value}
               type="button"
-              onClick={() => choose(opt.value)}
+              onClick={() => choose(opt)}
               className={clsx(
                 "group flex items-center justify-between gap-4 rounded-xl border px-5 py-4 text-left transition-all",
                 active
@@ -57,6 +83,37 @@ export function ChoiceStep({ question, subtext, options, value, onSelect }: Prop
           );
         })}
       </div>
+
+      {otherOpen && (
+        <div className="mt-4">
+          <textarea
+            autoFocus
+            value={otherText}
+            onChange={(e) => setOtherText(e.target.value)}
+            onKeyDown={(e) => {
+              if ((e.metaKey || e.ctrlKey) && e.key === "Enter") submitOther();
+            }}
+            placeholder={options.find((o) => o.value === otherOpen)?.textPlaceholder || "Say it in your own words..."}
+            rows={3}
+            className="w-full resize-none rounded-xl border border-border bg-surface/60 px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
+          />
+          {touched && !otherValid && (
+            <p className="mt-2 text-sm text-primary-light">A few words is all it needs.</p>
+          )}
+          <button
+            type="button"
+            onClick={submitOther}
+            className="btn-primary mt-4"
+            disabled={!otherValid}
+            style={{ opacity: otherValid ? 1 : 0.5 }}
+          >
+            Continue
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

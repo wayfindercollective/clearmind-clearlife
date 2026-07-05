@@ -107,9 +107,11 @@ export function Questionnaire() {
     const country = findCountry(contact.countryCode);
     const data: LeadData = {
       situation: responses.situation || "",
+      situationDetail: responses.situationDetail || "",
       lifeArea: responses.lifeArea || "",
-      income: responses.income || "",
+      investment: responses.investment || "",
       readiness: responses.readiness || "",
+      notes: responses.notes || "",
       firstName: contact.firstName.trim(),
       lastName: contact.lastName.trim(),
       email: contact.email.trim(),
@@ -137,7 +139,12 @@ export function Questionnaire() {
       localStorage.removeItem(PROGRESS_KEY);
     } catch {}
 
-    analytics.formSubmitted({ income_bracket: data.income, life_area: data.lifeArea, readiness: data.readiness });
+    analytics.formSubmitted({
+      situation: data.situation,
+      investment: data.investment,
+      life_area: data.lifeArea,
+      readiness: data.readiness,
+    });
 
     // 3) fire (with the 30s syncing lock), but ALWAYS advance to success
     try {
@@ -182,6 +189,7 @@ export function Questionnaire() {
             subtext={q.subtext}
             placeholder={q.placeholder}
             minLength={q.minLength}
+            optional={q.optional}
             value={responses[q.fieldName] || ""}
             onChange={(v) => setResponse(q.fieldName, v)}
             onAdvance={advance}
@@ -195,10 +203,17 @@ export function Questionnaire() {
             subtext={q.subtext}
             options={q.options}
             value={responses[q.fieldName] || ""}
-            onSelect={(v) => {
-              setResponse(q.fieldName, v);
+            detailValue={q.detailFieldName ? responses[q.detailFieldName] : undefined}
+            onSelect={(v, detail) => {
+              markStarted(q.fieldName);
+              setResponses((r) => {
+                const next = { ...r, [q.fieldName]: v };
+                if (q.detailFieldName) next[q.detailFieldName] = detail || "";
+                return next;
+              });
               advance();
             }}
+            onBlocked={() => analytics.validationBlocked(q.fieldName)}
           />
         )}
 

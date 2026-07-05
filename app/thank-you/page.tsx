@@ -4,7 +4,7 @@ import { BookingWidget } from "@/components/BookingWidget";
 import { VslPlayer } from "@/components/VslPlayer";
 
 export const metadata: Metadata = {
-  title: "You're in — Book Your Call | Clear Mind, Clear Life",
+  title: "You're in - Book Your Call | Clear Mind, Clear Life",
   robots: { index: false, follow: false },
 };
 

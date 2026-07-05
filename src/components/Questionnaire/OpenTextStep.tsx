@@ -7,15 +7,17 @@ type Props = {
   subtext?: string;
   placeholder?: string;
   minLength: number;
+  /** Skippable: always valid, empty answer allowed. */
+  optional?: boolean;
   value: string;
   onChange: (v: string) => void;
   onAdvance: () => void;
   onBlocked: () => void;
 };
 
-export function OpenTextStep({ question, subtext, placeholder, minLength, value, onChange, onAdvance, onBlocked }: Props) {
+export function OpenTextStep({ question, subtext, placeholder, minLength, optional, value, onChange, onAdvance, onBlocked }: Props) {
   const [touched, setTouched] = useState(false);
-  const valid = value.trim().length >= minLength;
+  const valid = optional || value.trim().length >= minLength;
 
   const submit = () => {
     if (valid) onAdvance();
@@ -42,12 +44,12 @@ export function OpenTextStep({ question, subtext, placeholder, minLength, value,
         className="mt-7 w-full resize-none rounded-xl border border-border bg-surface/60 px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
       />
       {touched && !valid && (
-        <p className="mt-2 text-sm text-primary-light">Just a few words so Dan can help - whatever feels true.</p>
+        <p className="mt-2 text-sm text-primary-light">A few words is plenty - whatever feels true.</p>
       )}
 
       <div className="mt-6 flex items-center gap-4">
         <button type="button" onClick={submit} className="btn-primary" disabled={!valid} style={{ opacity: valid ? 1 : 0.5 }}>
-          Continue
+          {optional && !value.trim() ? "Skip" : "Continue"}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
             <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

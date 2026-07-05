@@ -30,13 +30,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-      {/* concrete spec strip instead of a decorative glow */}
-      <div className="absolute inset-x-0 bottom-0 border-t border-border">
-        <div className="container-tight py-4">
-          <p className="text-sm text-muted-dim text-center">{h.meta}</p>
-        </div>
-      </div>
     </section>
   );
 }

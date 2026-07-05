@@ -4,11 +4,15 @@ export const FUNNEL_SLUG = "clearmind-clearlife";
 export const SOURCE_DOMAIN = "clearmindclearlife.com";
 
 export type LeadData = {
-  // open + scored answers
-  situation: string; // Q1 open text (unscored context)
-  lifeArea: string; // Q2 scored
-  income: string; // Q3 scored
-  readiness: string; // Q4 scored
+  // Q1 categorical + conditional detail
+  situation: string;
+  situationDetail: string; // only set when Q1 = "Something else"
+  // scored answers
+  lifeArea: string; // Q2
+  investment: string; // Q3 (replaces income - see questions.ts scoring note)
+  readiness: string; // Q4
+  // optional call-prep note
+  notes: string; // Q5
   // contact
   firstName: string;
   lastName: string;
@@ -19,16 +23,20 @@ export type LeadData = {
 };
 
 /**
- * The payload. Scored fields sent BOTH flat and nested under `responses` — free,
+ * The payload. Scored fields sent BOTH flat and nested under `responses` - free,
  * and whichever shape the Wayfinder handler reads wins. fieldName keys are contracts.
+ * situation / situationDetail / notes must reach the sales call-prep view.
  */
 export function buildWayfinderPayload(d: LeadData, pendingId: string) {
   const utm = getAttributionParams();
   const scored = {
     lifeArea: d.lifeArea,
-    income: d.income,
+    investment: d.investment,
     readiness: d.readiness,
   };
+  const context: Record<string, string> = { situation: d.situation };
+  if (d.situationDetail) context.situationDetail = d.situationDetail;
+  if (d.notes) context.notes = d.notes;
 
   return {
     pendingId,
@@ -41,10 +49,10 @@ export function buildWayfinderPayload(d: LeadData, pendingId: string) {
     smsConsent: d.smsConsent,
     // scored (flat)
     ...scored,
-    // scored (nested — newer handlers read here)
-    responses: { ...scored, situation: d.situation },
-    // extra context (stored under rawResponses on the customer record)
-    situation: d.situation,
+    // call-prep context (flat; extra top-level fields land in rawResponses)
+    ...context,
+    // nested - newer handlers read here
+    responses: { ...scored, ...context },
     // attribution
     source: SOURCE_DOMAIN,
     funnel: FUNNEL_SLUG,

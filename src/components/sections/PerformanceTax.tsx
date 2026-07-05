@@ -19,10 +19,6 @@ export function PerformanceTax() {
             </ScrollReveal>
           ))}
         </ul>
-
-        <ScrollReveal className="mt-10 max-w-2xl mx-auto text-center">
-          <p className="text-xl md:text-2xl font-display font-semibold text-platinum leading-snug">{s.closer}</p>
-        </ScrollReveal>
       </div>
     </section>
   );
