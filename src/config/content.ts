@@ -39,7 +39,7 @@ export const content = {
     headline: "You said you'd cut down.",
     headlineDim: "This time, make it stick.",
     subhead:
-      "Has the drinking stopped being a choice? Maybe it was a scare at the doctor's. Maybe one hangover too many. This is where it turns.",
+      "Has the drinking stopped being a choice? Maybe it was a scare at the doctor's. Maybe a relationship at breaking point. Maybe one hangover too many. This is where things change.",
     cta: "Apply for a call",
   },
 
