@@ -13,9 +13,9 @@ export default function ThankYou() {
   return (
     <div className="min-h-screen">
       <header className="border-b border-border">
-        <div className="container-tight flex items-center h-16 md:h-20">
+        <div className="container-tight flex items-center h-20 md:h-24">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={content.brand.logo} alt={content.brand.name} className="h-9 md:h-11 w-auto" />
+          <img src={content.brand.logo} alt={content.brand.name} className="h-16 md:h-[5rem] w-auto" />
         </div>
       </header>
 
