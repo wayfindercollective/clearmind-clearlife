@@ -1,5 +1,5 @@
 import { content } from "@/config/content";
-import { andrewTestimonial } from "@/config/testimonials";
+import { jimTestimonial } from "@/config/testimonials";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { TestimonialVideo } from "@/components/TestimonialVideo";
@@ -23,10 +23,10 @@ export function HowItWorks() {
           ))}
         </div>
 
-        {/* A real client call with Dan - the ultrawide clip lives here, next to the
-            "get on a call" step, and breaks up the section's text. */}
-        <ScrollReveal className="mt-16">
-          <TestimonialVideo v={andrewTestimonial} />
+        {/* Jim (hospitality owner) - his "built rules that work in my real business"
+            story fits the process section and breaks up the text. */}
+        <ScrollReveal className="mt-16 max-w-3xl mx-auto">
+          <TestimonialVideo v={jimTestimonial} />
         </ScrollReveal>
       </div>
     </section>

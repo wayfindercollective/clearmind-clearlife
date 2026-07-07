@@ -7,7 +7,7 @@ import { track } from "@/lib/analytics";
 
 const ASPECT: Record<VideoTestimonial["aspect"], string> = {
   portrait: "aspect-[9/16]",
-  band: "aspect-[32/9]",
+  landscape: "aspect-video",
 };
 
 export function TestimonialVideo({ v, className }: { v: VideoTestimonial; className?: string }) {
