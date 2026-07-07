@@ -20,7 +20,13 @@ export function FAQ() {
                     </svg>
                   </span>
                 </summary>
-                <p className="pb-6 pr-8 text-muted leading-relaxed max-w-2xl">{item.a}</p>
+                <div className="pb-6 pr-8 max-w-2xl space-y-4">
+                  {item.a.split("\n").map((para, j) => (
+                    <p key={j} className="text-muted leading-relaxed">
+                      {para}
+                    </p>
+                  ))}
+                </div>
               </details>
             </ScrollReveal>
           ))}

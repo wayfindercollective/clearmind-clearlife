@@ -170,7 +170,10 @@ export const content = {
       },
       {
         q: "What does it cost?",
-        a: "We talk about it on the call, once we both know it's a fit.",
+        a:
+          "It's an investment for us both over a six-month, one-to-one engagement. It is not a $29 app or a course you'll abandon by week three.\n" +
+          "Here's the honest maths, though. Add up what you spend on drinks, the dinners that turn into big nights, the taxis, the takeaways the next day, and the days you write off recovering. Over six months, most people I work with find the program costs less than the drinking did. The drinking doesn't give anything back, but your sobriety lasts forever.\n" +
+          "We cover exact numbers on the call, once we've both established it's a fit. No pressure tactics. If it's not right for you, I'll tell you.",
       },
       {
         q: "What happens if I slip?",
