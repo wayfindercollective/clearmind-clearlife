@@ -31,7 +31,7 @@ export const content = {
   },
 
   header: {
-    ctaLabel: "Apply for a call",
+    ctaLabel: "Apply Now",
   },
 
   hero: {
@@ -40,7 +40,7 @@ export const content = {
     headlineDim: "This time, make it stick.",
     subhead:
       "Has the drinking stopped being a choice? Maybe it was a scare at the doctor's. Maybe a relationship at breaking point. Maybe one hangover too many. This is where things change.",
-    cta: "Apply for a call",
+    cta: "Apply Now",
   },
 
   performanceTax: {
@@ -68,7 +68,7 @@ export const content = {
     kicker: "Results",
     heading: "They were in your situation",
     intro: "Real clients, in their own words.",
-    cta: "Apply for a call",
+    cta: "Apply Now",
   },
 
   framework: {
@@ -105,7 +105,7 @@ export const content = {
       "The low hum of anxiety gone from the background",
       "Evenings where you're properly there with your kids and your partner",
     ],
-    cta: "Apply for a call",
+    cta: "Apply Now",
   },
 
   whoItsFor: {
@@ -191,7 +191,7 @@ export const content = {
     heading: "Let's get this handled.",
     subhead:
       "Fill in the form and book a call - straight answers and a clear picture of what six months from now looks like. You'll have convinced yourself 'it's not that big of a deal' by Friday. Do something with it while it's still loud.",
-    cta: "Apply for a call",
+    cta: "Apply Now",
   },
 
   footer: {
