@@ -1,6 +1,6 @@
 import { getAttributionParams } from "./attribution";
 
-export const FUNNEL_SLUG = "clearmind-clearlife";
+export const FUNNEL_SLUG = "dan-mentoring";
 export const SOURCE_DOMAIN = "clearmindclearlife.com";
 
 export type LeadData = {
