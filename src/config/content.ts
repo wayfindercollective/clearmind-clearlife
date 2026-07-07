@@ -139,9 +139,7 @@ export const content = {
   apply: {
     kicker: "Apply",
     heading: "Apply for a call",
-    intro: "A few short questions to see if the Clear Choice approach is a fit for you. Takes about two minutes.",
-    confidential: "Everything you share is private and confidential.",
-    deRisk: "No hard sell on the call. If we can't help you, we'll tell you straight.",
+    intro: "A few short questions to see if this is a fit. Takes two minutes.",
   },
 
   faq: {

@@ -12,14 +12,6 @@ export function Application() {
           <Kicker>{s.kicker}</Kicker>
           <h2 className="mt-5 text-[clamp(1.9rem,4.4vw,3rem)] font-display font-bold">{s.heading}</h2>
           <p className="mt-5 text-lg text-muted leading-relaxed">{s.intro}</p>
-          <p className="mt-3 text-muted-dim">{s.deRisk}</p>
-          <p className="mt-4 inline-flex items-center gap-2 text-sm text-muted-dim">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="1.7" />
-              <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-            </svg>
-            {s.confidential}
-          </p>
         </ScrollReveal>
 
         {/* Elevated card: lighter surface + strong border + float shadow so the form
