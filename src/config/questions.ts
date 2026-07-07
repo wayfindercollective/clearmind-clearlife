@@ -1,20 +1,18 @@
 /**
- * The funnel definition. 6 steps:
- *   Q1 situation (choice + conditional "Something else" text)
- *   Q2 lifeArea (choice)
- *   Q3 drinkingPattern (choice - call-prep / readiness + safety signal)
- *   Q4 readiness (choice, scored)
- *   Q5 investment (choice, scored) - money question sits right before contact
- *   Q6 contact (+ optional SMS consent)
+ * The funnel definition. 6 steps (positive-framed):
+ *   Q1 situation   (choice + conditional "Something else" text) - current drinking pattern
+ *   Q2 lifeArea    (choice) - what they want to GAIN
+ *   Q3 readiness   (choice) - do they want to change now
+ *   Q4 investment  (choice) - commitment to move forward
+ *   Q5 position    (choice) - position at work (qualifier)
+ *   Q6 contact     (+ optional SMS consent)
  *
  * ⚠️ CONTRACT: the `value` strings on scored options are matched character-for-character
  * by Wayfinder's scoring rules. Copy the final strings out of Wayfinder admin before
- * launch - never retype. A one-character difference = lead scores 0, no rep paged.
+ * launch - never retype. Labels are positive; VALUES kept stable across the reframe so
+ * scoring config doesn't need re-doing for lifeArea/readiness/investment.
  *
- * ⚠️ Q5 investment scoring bands (remap pending Wayfinder admin):
- *   "Ready to invest if it's a fit"   -> highest band
- *   "Depends on the commitment"       -> middle band
- *   "Not right now"                   -> lowest band
+ * ⚠️ Scoring bands still pending Wayfinder admin for investment + position.
  */
 
 export type ChoiceOption = {
@@ -53,7 +51,7 @@ export const questions: Question[] = [
     type: "choice",
     fieldName: "situation",
     detailFieldName: "situationDetail",
-    question: "Where are you at with alcohol right now?",
+    question: "What is your current drinking pattern?",
     options: [
       { label: "I drink most days and I want to get control of it", value: "I drink most days and I want to get control of it" },
       { label: "I keep saying I'll cut down and it never sticks", value: "I keep saying I'll cut down and it never sticks" },
@@ -66,33 +64,21 @@ export const questions: Question[] = [
     id: "lifeArea",
     type: "choice",
     fieldName: "lifeArea",
-    question: "What is drinking costing you the most right now?",
-    subtext: "Pick the one that stings the most.",
+    question: "What are you looking to gain from cutting back your drinking?",
+    subtext: "Pick the one that matters most.",
+    // Positive labels; values kept stable (scoring contract unchanged).
     options: [
-      { label: "My focus & performance at work", value: "Work & performance" },
-      { label: "My health & energy", value: "Health & energy" },
-      { label: "My relationships & family", value: "Relationships & family" },
-      { label: "My self-respect & confidence", value: "Self-respect & confidence" },
-    ],
-  },
-  {
-    id: "drinkingPattern",
-    type: "choice",
-    fieldName: "drinkingPattern",
-    question: "Where are you in your drinking pattern right now?",
-    subtext: "This helps us understand the best timing and structure for your call.",
-    options: [
-      { label: "I haven't had a drink in 7+ days", value: "Haven't drunk in 7+ days" },
-      { label: "I drank within the past few days", value: "Within the past few days" },
-      { label: "I drank yesterday", value: "Yesterday" },
-      { label: "I've had a drink today", value: "Today" },
+      { label: "Sharper focus and performance at work", value: "Work & performance" },
+      { label: "More energy and better health", value: "Health & energy" },
+      { label: "Stronger relationships with my family", value: "Relationships & family" },
+      { label: "More confidence and self-respect", value: "Self-respect & confidence" },
     ],
   },
   {
     id: "readiness",
     type: "choice",
     fieldName: "readiness",
-    question: "How ready are you to start this now?",
+    question: "Do you want to change this right now?",
     subtext: "There's no wrong answer. Be honest.",
     options: [
       { label: "Ready to start, I need to change", value: "Ready to start, I need to change" },
@@ -105,12 +91,25 @@ export const questions: Question[] = [
     id: "investment",
     type: "choice",
     fieldName: "investment",
-    question: "If the Clear Choice Program turns out to be a fit, how do you feel about investing in yourself?",
+    question: "If Dan opened up his availability to take you on as a client, how committed are you to move forward?",
     subtext: "This just helps us have an honest conversation on the call.",
     options: [
       { label: "If it's the right fit, I'm ready to invest", value: "Ready to invest if it's a fit" },
       { label: "I'm not sure, it depends on a few things lining up and knowing the commitment required first", value: "Depends on the commitment" },
       { label: "I'm not in a position to invest right now", value: "Not right now" },
+    ],
+  },
+  {
+    id: "position",
+    type: "choice",
+    fieldName: "position",
+    question: "What best describes your position at work?",
+    subtext: "This helps us understand where you're coming from.",
+    options: [
+      { label: "Business owner / CEO", value: "Business owner / CEO" },
+      { label: "Manager", value: "Manager" },
+      { label: "Employee", value: "Employee" },
+      { label: "Not working right now", value: "Not working" },
     ],
   },
   {

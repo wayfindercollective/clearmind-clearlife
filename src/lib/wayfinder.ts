@@ -7,12 +7,11 @@ export type LeadData = {
   // Q1 categorical + conditional detail
   situation: string;
   situationDetail: string; // only set when Q1 = "Something else"
-  // call-prep context
-  drinkingPattern: string; // Q3
-  // scored answers
-  lifeArea: string; // Q2
-  readiness: string; // Q4
-  investment: string; // Q5 (replaces income - see questions.ts scoring note)
+  // scored answers / qualifiers
+  lifeArea: string; // Q2 (what they want to gain)
+  readiness: string; // Q3
+  investment: string; // Q4 (commitment)
+  position: string; // Q5 (position at work)
   // contact
   firstName: string;
   lastName: string;
@@ -33,8 +32,9 @@ export function buildWayfinderPayload(d: LeadData, pendingId: string) {
     lifeArea: d.lifeArea,
     readiness: d.readiness,
     investment: d.investment,
+    position: d.position,
   };
-  const context: Record<string, string> = { situation: d.situation, drinkingPattern: d.drinkingPattern };
+  const context: Record<string, string> = { situation: d.situation };
   if (d.situationDetail) context.situationDetail = d.situationDetail;
 
   return {

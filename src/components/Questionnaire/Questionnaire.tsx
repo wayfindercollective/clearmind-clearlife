@@ -108,10 +108,10 @@ export function Questionnaire() {
     const data: LeadData = {
       situation: responses.situation || "",
       situationDetail: responses.situationDetail || "",
-      drinkingPattern: responses.drinkingPattern || "",
       lifeArea: responses.lifeArea || "",
       readiness: responses.readiness || "",
       investment: responses.investment || "",
+      position: responses.position || "",
       firstName: contact.firstName.trim(),
       lastName: contact.lastName.trim(),
       email: contact.email.trim(),
