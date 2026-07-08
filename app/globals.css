@@ -140,8 +140,11 @@ p { text-wrap: pretty; }
   transform: translateY(18px);
   transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
 }
+/* Hint the compositor only while an element is still waiting to reveal; once it has
+   (is-visible sticks, since the observer is once:true) the layer is released, so we
+   don't hold 40+ permanent GPU layers that tax every scroll frame. */
+.reveal:not(.is-visible) { will-change: opacity, transform; }
 .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ─── Marquee (testimonials) ───────────────────────────────────────────── */

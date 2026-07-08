@@ -11,7 +11,9 @@ type Props = {
 };
 
 export function ScrollReveal({ children, className, delay = 0, as = "div" }: Props) {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  // once:true — reveal a single time then unobserve, so elements don't re-run their
+  // fade/slide transition every time they cross the viewport edge during scroll.
+  const { ref, inView } = useInView<HTMLDivElement>({ once: true });
   const Tag = as as any;
   return (
     <Tag
