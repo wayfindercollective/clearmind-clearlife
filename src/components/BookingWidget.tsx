@@ -67,11 +67,14 @@ export function BookingWidget() {
 
   return (
     <div>
-      {/* Fixed, moderate height with the calendar scrolling INSIDE the iframe, so all
-          time slots stay reachable without the widget dominating the page. */}
+      {/* The embedded booking page is a full standalone app (cross-origin, so we can't
+          read its content height, and it emits no resize postMessage). To avoid a
+          scrollbar-inside-a-scrollbar, we give the iframe enough height to hold the whole
+          calendar card (date grid + a full day's time-slot list) and let the OUTER page
+          scroll normally. Tuned to fit typical availability; nudge if slots ever clip. */}
       <div
         className="relative overflow-hidden rounded-2xl border border-border bg-surface"
-        style={{ height: "min(660px, 74vh)", minHeight: 480 }}
+        style={{ height: 1120 }}
       >
         {!loaded && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
