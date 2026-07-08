@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { content } from "@/config/content";
 
 // Env override wins (e.g. a test slug on preview); otherwise the committed slug is used.
@@ -10,6 +10,7 @@ export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
+  const resetOnce = useRef(false);
 
   useEffect(() => {
     if (!BOOKING_SLUG) return;
@@ -36,6 +37,18 @@ export function BookingWidget() {
 
   const externalLink = BOOKING_SLUG ? `https://wayfindercollective.io/book/team/${BOOKING_SLUG}` : "#";
 
+  const onIframeLoad = () => {
+    setLoaded(true);
+    // The embedded calendar auto-focuses a control on load, which makes the browser
+    // scroll the whole page down to it (past the heading). Reset to top once, right
+    // after the first load, to keep the confirmation heading in view.
+    if (!resetOnce.current) {
+      resetOnce.current = true;
+      window.scrollTo({ top: 0 });
+      setTimeout(() => window.scrollTo({ top: 0 }), 250);
+    }
+  };
+
   // Not configured (local review) — show a clear placeholder, never a broken iframe.
   if (!BOOKING_SLUG) {
     return (
@@ -54,7 +67,12 @@ export function BookingWidget() {
 
   return (
     <div>
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface" style={{ height: "calc(100vh - 4rem)", minHeight: 560 }}>
+      {/* Fixed, moderate height with the calendar scrolling INSIDE the iframe, so all
+          time slots stay reachable without the widget dominating the page. */}
+      <div
+        className="relative overflow-hidden rounded-2xl border border-border bg-surface"
+        style={{ height: "min(660px, 74vh)", minHeight: 480 }}
+      >
         {!loaded && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
             <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
@@ -75,10 +93,9 @@ export function BookingWidget() {
             <iframe
               src={url}
               title="Book your discovery call"
-              onLoad={() => setLoaded(true)}
+              onLoad={onIframeLoad}
               allow="camera; microphone; payment"
-              className="w-full border-0"
-              style={{ height: "calc(100vh + 370px)", marginTop: -370 }}
+              className="w-full h-full border-0"
             />
           )
         )}
