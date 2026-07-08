@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { questions, TOTAL_STEPS } from "@/config/questions";
+import { questions, TOTAL_STEPS, normalizedType } from "@/config/questions";
 import { ProgressBar } from "./ProgressBar";
 import { OpenTextStep } from "./OpenTextStep";
 import { ChoiceStep } from "./ChoiceStep";
 import { ContactStep, emptyContact, findCountry, type ContactValue } from "./ContactStep";
-import { analytics } from "@/lib/analytics";
+import { analytics, isFormReached, onFormReached } from "@/lib/analytics";
 import { usePendingLeadsSync } from "@/hooks/usePendingLeadsSync";
 import { formatPhoneForCrm, formatPhoneE164 } from "@/lib/phone";
 import { buildWayfinderPayload, type LeadData } from "@/lib/wayfinder";
@@ -16,6 +16,17 @@ import { submitLead } from "@/lib/submitLead";
 
 const PROGRESS_KEY = "clearmind-clearlife-application-progress";
 type Responses = Record<string, string>;
+
+/** question_progress for the slide at `step` (0-based) -> 1-based number + shared keys. */
+function fireQuestionProgress(step: number) {
+  const q = questions[step];
+  analytics.questionProgress(step + 1, normalizedType(q), q.id, q.question);
+}
+
+/** Reason string for question_validation_blocked on the contact step. */
+function contactReason(field: string) {
+  return field === "email" ? "invalid_email" : field === "phone" ? "invalid_phone" : "required";
+}
 
 export function Questionnaire() {
   const router = useRouter();
@@ -26,8 +37,9 @@ export function Questionnaire() {
 
   const started = useRef(false);
   const submittedOnce = useRef(false);
-  const enterTime = useRef<number>(0);
   const restored = useRef(false);
+  const stepRef = useRef(0);
+  const formReachedRef = useRef(false);
 
   usePendingLeadsSync();
 
@@ -61,13 +73,27 @@ export function Questionnaire() {
     } catch {}
   }, [step, responses, contact]);
 
-  /* Question view analytics — suppressed until the funnel actually starts. */
+  /* question_progress — suppressed until the application form scrolls into view,
+     then fired for the current slide and every advance/back after. */
   useEffect(() => {
-    enterTime.current = performance.now();
-    if (started.current || step > 0) {
-      analytics.questionViewed(questions[step].id, step + 1);
-    }
+    stepRef.current = step;
+    if (formReachedRef.current) fireQuestionProgress(step);
   }, [step]);
+
+  /* Open the gate when #apply reaches the viewport (or is already in view on
+     mount), firing progress once for whatever slide the user is parked on. */
+  useEffect(() => {
+    const open = () => {
+      if (formReachedRef.current) return;
+      formReachedRef.current = true;
+      fireQuestionProgress(stepRef.current);
+    };
+    if (isFormReached()) {
+      open();
+      return;
+    }
+    return onFormReached(open);
+  }, []);
 
   const markStarted = (firstField: string) => {
     if (started.current) return;
@@ -76,13 +102,15 @@ export function Questionnaire() {
   };
 
   const advance = () => {
-    analytics.questionCompleted(questions[step].id, step + 1, Math.round(performance.now() - enterTime.current));
+    const q = questions[step];
+    analytics.questionCompleted(step + 1, normalizedType(q), q.id);
     setStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
   };
 
   const back = () => {
     if (step === 0) return;
-    analytics.questionBack(questions[step].id, step + 1);
+    // from_question / to_question, both 1-based.
+    analytics.questionBack(step + 1, step);
     setStep((s) => Math.max(s - 1, 0));
   };
 
@@ -139,12 +167,10 @@ export function Questionnaire() {
       localStorage.removeItem(PROGRESS_KEY);
     } catch {}
 
-    analytics.formSubmitted({
-      situation: data.situation,
-      investment: data.investment,
-      life_area: data.lifeArea,
-      readiness: data.readiness,
-    });
+    // Fires on reaching the success screen even if the backend call below fails
+    // (the lead is saved locally + retried), so conversion tracks real completions.
+    // income_bracket is intentionally omitted — this funnel has no income question.
+    analytics.formSubmitted({ life_area: data.lifeArea });
 
     // 3) fire (with the 30s syncing lock), but ALWAYS advance to success
     try {
@@ -155,13 +181,25 @@ export function Questionnaire() {
           analytics.wayfinderLeadSent("immediate", { pendingId });
         } else {
           clearLeadSyncingLock(pendingId);
-          analytics.formSubmissionError({ error_type: res.errorType, pendingId, savedToLocalStorage: true });
+          analytics.formSubmissionError({
+            error_message: res.error ?? `HTTP ${res.status}`,
+            current_slide: step + 1,
+            error_type: res.errorType === "network" ? "network_error" : "server_error",
+            pendingId,
+            savedToLocalStorage: true,
+          });
           analytics.wayfinderLeadFailed({ error: res.error, pendingId });
         }
       }
     } catch {
       clearLeadSyncingLock(pendingId);
-      analytics.formSubmissionError({ error_type: "network", pendingId, savedToLocalStorage: true });
+      analytics.formSubmissionError({
+        error_message: "network_error",
+        current_slide: step + 1,
+        error_type: "network_error",
+        pendingId,
+        savedToLocalStorage: true,
+      });
     } finally {
       router.push("/thank-you");
     }
@@ -184,7 +222,7 @@ export function Questionnaire() {
             value={responses[q.fieldName] || ""}
             onChange={(v) => setResponse(q.fieldName, v)}
             onAdvance={advance}
-            onBlocked={() => analytics.validationBlocked(q.fieldName)}
+            onBlocked={() => analytics.questionValidationBlocked(q.id, q.fieldName, "too_short")}
           />
         )}
 
@@ -204,7 +242,7 @@ export function Questionnaire() {
               });
               advance();
             }}
-            onBlocked={() => analytics.validationBlocked(q.fieldName)}
+            onBlocked={() => analytics.questionValidationBlocked(q.id, q.fieldName, "too_short")}
           />
         )}
 
@@ -218,7 +256,7 @@ export function Questionnaire() {
               setContact((c) => ({ ...c, ...patch }));
             }}
             onSubmit={handleSubmit}
-            onBlocked={(field) => analytics.validationBlocked(field)}
+            onBlocked={(field) => analytics.questionValidationBlocked(q.id, field, contactReason(field))}
             submitting={submitting}
           />
         )}

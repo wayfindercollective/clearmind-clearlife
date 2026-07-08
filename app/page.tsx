@@ -12,10 +12,12 @@ import { Application } from "@/components/sections/Application";
 import { FAQ } from "@/components/sections/FAQ";
 import { BottomCTA } from "@/components/sections/BottomCTA";
 import { Footer } from "@/components/sections/Footer";
+import { SectionTracker } from "@/components/SectionTracker";
 
 export default function Home() {
   return (
     <>
+      <SectionTracker />
       <Header />
       <main>
         <Hero />

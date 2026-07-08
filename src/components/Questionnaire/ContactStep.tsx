@@ -92,6 +92,7 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
               type="text"
               placeholder="First name"
               autoComplete="given-name"
+              data-posthog-mask
               value={value.firstName}
               onChange={(e) => onChange({ firstName: e.target.value })}
               onBlur={() => markBlur("firstName")}
@@ -104,6 +105,7 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
               type="text"
               placeholder="Last name"
               autoComplete="family-name"
+              data-posthog-mask
               value={value.lastName}
               onChange={(e) => onChange({ lastName: e.target.value })}
               onBlur={() => markBlur("lastName")}
@@ -119,6 +121,7 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
             inputMode="email"
             placeholder="Email address"
             autoComplete="email"
+            data-posthog-mask
             value={value.email}
             onChange={(e) => onChange({ email: e.target.value })}
             onBlur={() => markBlur("email")}
@@ -146,6 +149,7 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
               inputMode="tel"
               placeholder="Phone number"
               autoComplete="tel"
+              data-posthog-mask
               value={value.phone}
               onChange={(e) => onChange({ phone: e.target.value })}
               onBlur={() => markBlur("phone")}

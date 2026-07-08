@@ -122,3 +122,13 @@ export const questions: Question[] = [
 ];
 
 export const TOTAL_STEPS = questions.length;
+
+/**
+ * PostHog `question_type` — normalized to the cross-site contract: underscores,
+ * and our internal step kinds mapped to the shared vocabulary
+ * (`open` -> text, `choice` -> multiple_choice, `contact` kept as-is).
+ */
+export function normalizedType(q: Question): string {
+  const mapped = q.type === "open" ? "text" : q.type === "choice" ? "multiple_choice" : "contact";
+  return mapped.replace(/-/g, "_");
+}

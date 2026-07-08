@@ -1,6 +1,7 @@
 import { content } from "@/config/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { FaqItem } from "@/components/sections/FaqItem";
 
 export function FAQ() {
   const s = content.faq;
@@ -11,23 +12,7 @@ export function FAQ() {
         <div className="mt-12 border-t border-border">
           {s.items.map((item, i) => (
             <ScrollReveal key={i} delay={i * 30}>
-              <details className="group border-b border-border">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 py-5 list-none">
-                  <span className="text-lg font-medium text-foreground pr-2">{item.q}</span>
-                  <span className="shrink-0 text-muted transition-transform duration-300 group-open:rotate-45">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-                      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="pb-6 pr-8 max-w-2xl space-y-4">
-                  {item.a.split("\n").map((para, j) => (
-                    <p key={j} className="text-muted leading-relaxed">
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              </details>
+              <FaqItem q={item.q} a={item.a} index={i} />
             </ScrollReveal>
           ))}
         </div>
