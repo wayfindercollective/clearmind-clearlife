@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { content } from "@/config/content";
 import { BookingWidget } from "@/components/BookingWidget";
-import { VslPlayer } from "@/components/VslPlayer";
 
 export const metadata: Metadata = {
   title: "You're in - Book Your Call | Clear Mind, Clear Life",
@@ -33,23 +32,17 @@ export default function ThankYou() {
           <p className="mt-5 text-lg text-muted leading-relaxed">{t.subhead}</p>
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
+        <div className="mt-12 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
           {/* Booking */}
           <div>
-            <h2 className="text-xl font-semibold mb-5 flex items-center gap-3">
-              <span className="text-primary font-display">1</span> {t.bookingHeading}
-            </h2>
+            <h2 className="text-xl font-semibold mb-5">{t.bookingHeading}</h2>
             <BookingWidget />
           </div>
 
-          {/* VSL + next steps */}
+          {/* What happens next */}
           <div>
-            <h2 className="text-xl font-semibold mb-5 flex items-center gap-3">
-              <span className="text-primary font-display">2</span> {t.vslHeading}
-            </h2>
-            <VslPlayer />
-
-            <ul className="mt-8 space-y-4">
+            <h2 className="text-xl font-semibold mb-5">What happens next</h2>
+            <ol className="space-y-5">
               {t.nextSteps.map((stepText, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
@@ -58,7 +51,7 @@ export default function ThankYou() {
                   <span className="text-foreground/90 leading-snug">{stepText}</span>
                 </li>
               ))}
-            </ul>
+            </ol>
           </div>
         </div>
       </main>

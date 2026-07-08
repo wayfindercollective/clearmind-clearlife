@@ -233,12 +233,11 @@ export const content = {
   thankYou: {
     kicker: "Application received",
     heading: "You're in. Now book the call.",
-    subhead: "Pick a time below. Then watch the short video so you turn up to our call ready to use it.",
+    subhead: "Pick a time below to book your call. We'll see you there.",
     bookingHeading: "Book your call",
-    vslHeading: "Watch this first",
     nextSteps: [
-      "Book a time on the calendar",
-      "Watch the short video below before we speak",
+      "Book your call",
+      "Add it to your calendar",
       "Show up to the call being honest, the more you do that, the more we can do on the call",
     ],
   },
