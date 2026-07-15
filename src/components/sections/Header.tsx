@@ -36,7 +36,7 @@ export function Header() {
           ))}
         </nav>
 
-        <CTAButton location="header" label={content.header.ctaLabel} className="!px-5 !py-2.5 text-sm" />
+        <CTAButton location="header" label={content.header.ctaLabel} arrow="up" className="!px-5 !py-2.5 text-sm" />
       </div>
     </header>
   );

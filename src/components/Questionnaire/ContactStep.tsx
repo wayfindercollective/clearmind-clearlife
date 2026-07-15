@@ -84,7 +84,17 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
       <h3 className="text-2xl md:text-3xl font-display font-semibold leading-tight">{question}</h3>
       {subtext && <p className="mt-3 text-muted">{subtext}</p>}
 
-      <div className="mt-7 grid gap-4">
+      {/* Privacy reassurance lives WITH the fields (not as fine print under the
+          button) - it's doing persuasion work at the moment of hesitation. */}
+      <p className="mt-5 flex items-center gap-2.5 rounded-lg border border-border bg-background/60 px-3.5 py-2.5 text-sm text-foreground/90">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0 text-primary">
+          <rect x="4.5" y="10.5" width="15" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
+          <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+        {content.contact.privacyNote}
+      </p>
+
+      <div className="mt-5 grid gap-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <input
@@ -171,9 +181,11 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
           className="absolute left-[-9999px] h-0 w-0 opacity-0"
         />
 
-        {/* SMS consent: dedicated, unchecked by default, optional (does not gate submit). */}
-        <div className="mt-1 rounded-lg border border-border bg-background/60 p-4">
-          <label className="flex items-start gap-3 cursor-pointer">
+        {/* SMS consent: dedicated, unchecked by default, optional (does not gate submit).
+            The bold callout + gold border exist so nobody misses the box. */}
+        <div className="mt-1 rounded-lg border border-primary/35 bg-background/60 p-4">
+          <p className="text-sm font-semibold text-foreground">{content.contact.smsCallout}</p>
+          <label className="mt-3 flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={value.smsConsent}
@@ -211,11 +223,9 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
           </svg>
         )}
       </button>
-      <p className="mt-3 text-xs text-muted-dim">
-        {canSubmit
-          ? "Your details are private and only used to arrange your call."
-          : "Fill in your details above and the button will activate."}
-      </p>
+      {!canSubmit && !submitting && (
+        <p className="mt-3 text-xs text-muted-dim">Fill in your details above and the button will activate.</p>
+      )}
     </div>
   );
 }

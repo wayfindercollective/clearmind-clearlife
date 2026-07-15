@@ -18,40 +18,36 @@ export default function ThankYou() {
         </div>
       </header>
 
-      <main className="container-tight py-14 md:py-20">
-        <div className="max-w-2xl">
-          <p className="mb-4 flex items-center gap-2.5 text-xs uppercase tracking-[0.15em] text-muted font-semibold">
-            <span className="grid place-items-center h-5 w-5 rounded-full bg-primary text-black">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            {t.kicker}
-          </p>
-          <h1 className="text-[clamp(2rem,5vw,3.2rem)] leading-[1.06] font-semibold">{t.heading}</h1>
-          <p className="mt-5 text-lg text-muted leading-relaxed">{t.subhead}</p>
-        </div>
-
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1.6fr_1fr]">
-          {/* Booking */}
-          <div>
-            <h2 className="text-xl font-semibold mb-5">{t.bookingHeading}</h2>
-            <BookingWidget />
+      {/* Everything above the calendar is deliberately compact: the whole point of
+          this page is picking a time, so the date grid must land in the first
+          viewport without scrolling - centered where the application form sat. */}
+      <main className="container-tight pt-8 pb-14 md:pt-10">
+        <div className="mx-auto max-w-3xl">
+          <div className="text-center">
+            <p className="mb-3 flex items-center justify-center gap-2.5 text-xs uppercase tracking-[0.15em] text-muted font-semibold">
+              <span className="grid place-items-center h-5 w-5 rounded-full bg-primary text-black">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              {t.kicker}
+            </p>
+            <h1 className="text-[clamp(1.7rem,3.5vw,2.4rem)] leading-[1.06] font-semibold">{t.heading}</h1>
           </div>
 
-          {/* What happens next */}
-          <div>
-            <h2 className="text-xl font-semibold mb-5">What happens next</h2>
-            <ol className="space-y-5">
-              {t.nextSteps.map((stepText, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
-                    {i + 1}
-                  </span>
-                  <span className="text-foreground/90 leading-snug">{stepText}</span>
-                </li>
-              ))}
-            </ol>
+          <ol className="mt-6 grid gap-3 sm:grid-cols-3">
+            {t.nextSteps.map((stepText, i) => (
+              <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3.5">
+                <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
+                  {i + 1}
+                </span>
+                <span className="text-sm text-foreground/90 leading-snug">{stepText}</span>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-6">
+            <BookingWidget />
           </div>
         </div>
       </main>

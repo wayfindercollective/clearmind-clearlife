@@ -24,7 +24,7 @@ export function Outcomes() {
         </ul>
 
         <ScrollReveal className="mt-14 text-center">
-          <CTAButton location="outcomes" label={content.outcomes.cta} />
+          <CTAButton location="outcomes" label={content.outcomes.cta} arrow="up" />
         </ScrollReveal>
       </div>
     </section>

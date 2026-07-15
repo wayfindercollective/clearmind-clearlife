@@ -222,8 +222,10 @@ export const content = {
     // Seven load-bearing elements: brand · use-case · frequency · rates · STOP · HELP · no-third-party-share.
     // [BRAND] = "Clear Mind, Clear Life" per handoff. If the 10DLC campaign is registered
     // under Wayfinder, swap to "Wayfinder Coaching" - single-string change.
+    smsCallout: "To be contacted by Dan, check the box:",
     smsLine:
       "By providing your phone number, you agree to receive SMS appointment reminders, booking confirmations, and account updates from Clear Mind, Clear Life. Message frequency may vary. Standard Message and Data Rates may apply. Reply STOP to opt out. Reply HELP for help. We will not share mobile information with third parties for promotional or marketing purposes.",
+    privacyNote: "Your details are private and only used to arrange your call.",
     privacyLabel: "Privacy Policy",
     privacyHref: "https://wayfindercollective.io/privacy",
     termsLabel: "Terms of Service",
@@ -233,8 +235,6 @@ export const content = {
   thankYou: {
     kicker: "Application received",
     heading: "You're in. Now book the call.",
-    subhead: "Pick a time below to book your call. We'll see you there.",
-    bookingHeading: "Book your call",
     nextSteps: [
       "Book your call",
       "Add it to your calendar",

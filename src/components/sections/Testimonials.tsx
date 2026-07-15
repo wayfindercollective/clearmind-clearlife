@@ -18,7 +18,7 @@ export function Testimonials() {
         </ScrollReveal>
 
         <div className="mt-14 text-center">
-          <CTAButton location="results" label={s.cta} />
+          <CTAButton location="results" label={s.cta} arrow="up" />
         </div>
       </div>
     </section>

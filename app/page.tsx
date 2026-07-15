@@ -8,7 +8,6 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Outcomes } from "@/components/sections/Outcomes";
 import { About } from "@/components/sections/About";
 import { WhoItsFor } from "@/components/sections/WhoItsFor";
-import { Application } from "@/components/sections/Application";
 import { FAQ } from "@/components/sections/FAQ";
 import { BottomCTA } from "@/components/sections/BottomCTA";
 import { Footer } from "@/components/sections/Footer";
@@ -29,7 +28,6 @@ export default function Home() {
         <Outcomes />
         <About />
         <WhoItsFor />
-        <Application />
         <FAQ />
         <BottomCTA />
       </main>
