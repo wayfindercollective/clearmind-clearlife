@@ -14,48 +14,82 @@ const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG || content.b
    OS/browser font scaling that inflates rem, but the app inside the iframe keeps its
    own 16px root. Sizing the box in px keeps box and content in lockstep.
 
-   Numbers measured against the live booking app:
-   - two-column layout needs >= ~1030px of internal width (breakpoint is 1024)
-   - in that layout, content starts 64px in (croppable padding) and ends by ~740px
-     internal even with a full day's time-slot list open
-   - the calendar panel is FLUID: it takes all internal width beyond the fixed-width
-     intro card. So a WIDER internal viewport = a visibly larger calendar. That's why
-     the scale is a constant 0.75 (internal = column/0.75) rather than "as close to
-     1 as fits": scaling toward 1 narrows the internal viewport and shrinks the panel.
-     Only columns under 780px reduce scale further, to hold internal width at the
-     two-column minimum. Narrow columns (<700, mobile) keep the app's stacked layout. */
-const TWO_COL_INTERNAL = 1040;
-const TOP_PAD = 64;
-const CONTENT_BOTTOM = 740;
-const BASE_SCALE = 0.75;
+   Desktop shows ONLY the app's calendar panel, scaled up: the iframe is pinned to a
+   fixed 1356px internal viewport (measured against the live app - it centers a
+   ~1157px content block there, intro card left, calendar panel at x 700-1290 with
+   content in y 64-600, including a full day's slot list AND the confirm-booking step,
+   which renders inside the same panel - verified by driving the flow). The intro
+   card duplicates the thank-you page copy, so it's cropped away via negative margins
+   and the panel is scaled to the largest size the viewport height allows (cap 1.25x).
+   The box is sized exactly to the scaled panel and centered in its column.
+
+   Mobile (<700px column) keeps the app's stacked layout, viewport-fit, no crops. */
+const FRAME_W = 1356; // fixed internal viewport width the panel geometry is measured at
+// The app's grid reflows between states (fresh: panel at x~596; confirm step: x~710),
+// so crop at the leftmost edge - later states just show a slim background band left.
+const PANEL_LEFT = 590;
+const PANEL_RIGHT = 1290;
+const PANEL_TOP = 64;
+const PANEL_BOTTOM = 600;
+const MAX_SCALE = 1.25;
+const MOBILE_SCALE = 0.75;
+// px kept free above/below the box (header, page padding, fallback link)
+const CHROME_RESERVE = 150;
 
 export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
   const [colWidth, setColWidth] = useState(0);
+  const [viewH, setViewH] = useState(0);
   const resetOnce = useRef(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
 
   useIsomorphicLayoutEffect(() => {
     const el = boxRef.current;
     if (!el || typeof ResizeObserver === "undefined") return;
-    const update = () => setColWidth(el.clientWidth);
+    const update = () => {
+      setColWidth(el.parentElement?.clientWidth ?? el.clientWidth);
+      setViewH(window.innerHeight);
+    };
     update();
     const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
+    ro.observe(el.parentElement ?? el);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
+  const panelW = PANEL_RIGHT - PANEL_LEFT;
+  const panelH = PANEL_BOTTOM - PANEL_TOP;
   // Assume desktop until measured (the layout effect corrects before paint), so
   // the iframe never boots in one regime and re-lays-out into another.
   const desktop = colWidth === 0 || colWidth >= 700;
-  const scale =
-    desktop && colWidth > 0 ? Math.min(BASE_SCALE, colWidth / TWO_COL_INTERNAL) : BASE_SCALE;
-  const crop = desktop ? TOP_PAD * scale : 0;
+  const scale = !desktop
+    ? MOBILE_SCALE
+    : colWidth === 0
+      ? 1
+      : Math.max(0.6, Math.min(MAX_SCALE, (viewH - CHROME_RESERVE) / panelH, colWidth / panelW));
   const boxStyle: React.CSSProperties = desktop
-    ? { height: `min(${Math.round((CONTENT_BOTTOM - TOP_PAD) * scale)}px, calc(100svh - 8rem))` }
+    ? { width: Math.round(panelW * scale), height: Math.round(panelH * scale), marginInline: "auto" }
     : { height: "calc(100svh - 13rem)", minHeight: 420 };
+  const frameStyle: React.CSSProperties = desktop
+    ? {
+        width: FRAME_W,
+        height: PANEL_BOTTOM, // internal viewport ends at the panel's content bottom
+        marginLeft: -Math.round(PANEL_LEFT * scale),
+        marginTop: -Math.round(PANEL_TOP * scale),
+        transform: `scale(${scale})`,
+        transformOrigin: "top left",
+      }
+    : {
+        width: `${100 / MOBILE_SCALE}%`,
+        height: `${100 / MOBILE_SCALE}%`,
+        transform: `scale(${MOBILE_SCALE})`,
+        transformOrigin: "top left",
+      };
 
   useEffect(() => {
     if (!BOOKING_SLUG) return;
@@ -136,14 +170,7 @@ export function BookingWidget() {
               onLoad={onIframeLoad}
               allow="camera; microphone; payment"
               className="border-0"
-              style={{
-                width: `${100 / scale}%`,
-                // the cropped band still needs rendering, so the iframe is taller by crop/scale
-                height: `calc(${100 / scale}% + ${Math.round(crop / scale)}px)`,
-                marginTop: -crop,
-                transform: `scale(${scale})`,
-                transformOrigin: "top left",
-              }}
+              style={frameStyle}
             />
           )
         )}

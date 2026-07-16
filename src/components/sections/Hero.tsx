@@ -10,27 +10,29 @@ export function Hero() {
     <section id="top" className="section-screen relative pt-20 md:pt-24 short:pt-[4.5rem] pb-14 md:pb-20 short:pb-10 border-b border-border">
       <div className="container-tight w-full">
         <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
-          {/* Copy — left-aligned so the kicker hairline, headline and subhead all sit flush */}
+          {/* Copy — left-aligned so the kicker hairline, headline and subhead all sit
+              flush. Sized to FILL the column height beside the form, not whisper. */}
           <div className="max-w-xl">
-            <Kicker>{h.kicker}</Kicker>
+            {/* ! overrides .kicker's unlayered 0.72rem font-size */}
+            <Kicker className="text-sm!">{h.kicker}</Kicker>
 
-            <h1 className="mt-6 short:mt-5 font-display font-extrabold text-[clamp(2.2rem,4.2vw,3.5rem)] short:text-[clamp(2rem,3.6vw,2.75rem)] leading-[1.04]">
+            <h1 className="mt-7 short:mt-6 font-display font-extrabold text-[clamp(2.6rem,5.2vw,4.5rem)] short:text-[clamp(2.4rem,4.6vw,3.5rem)] leading-[1.04]">
               {h.headline}{" "}
               <span className="block text-muted-dim font-bold">{h.headlineDim}</span>
             </h1>
 
-            <p className="mt-6 short:mt-4 text-lg short:text-base text-muted leading-relaxed">{h.subhead}</p>
+            <p className="mt-7 short:mt-5 text-xl md:text-2xl short:text-xl text-muted leading-relaxed">{h.subhead}</p>
 
-            <div className="mt-8 short:mt-6 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <div className="mt-9 short:mt-7 flex flex-wrap items-center gap-x-7 gap-y-4">
               {/* On desktop the form is beside this copy, so the button only earns its
                   place on smaller screens where the form sits below the fold. Hidden via
                   a wrapper: .btn-primary's unlayered display beats an lg:hidden utility. */}
               <div className="lg:hidden">
                 <CTAButton location="hero" label={h.cta} className="text-base" />
               </div>
-              <a href="#results" className="link-quiet inline-flex items-center gap-1.5 font-medium">
+              <a href="#results" className="link-quiet inline-flex items-center gap-2 font-medium text-lg">
                 See real results
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
                   <path d="M12 5v14M6 13l6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
