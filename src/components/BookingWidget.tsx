@@ -6,6 +6,11 @@ import { content } from "@/config/content";
 // Env override wins (e.g. a test slug on preview); otherwise the committed slug is used.
 const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG || content.brand.bookingSlug;
 
+// Visual zoom applied to the embedded booking app (iframe rendered at 1/SCALE size,
+// scaled back down). 0.75 shows the intro card AND the date grid in one viewport-height
+// widget without inner scrolling; below ~0.7 the app's small labels get hard to read.
+const SCALE = 0.75;
+
 export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -68,10 +73,11 @@ export function BookingWidget() {
   return (
     <div>
       {/* The embedded booking page is a full standalone app (cross-origin, so we can't
-          read its content height, and it emits no resize postMessage). Sized to the
-          viewport so the calendar is fully on screen without scrolling the page; if a
-          day's slot list runs long, the iframe scrolls internally. 8.5rem = header +
-          page padding above the widget + breathing room for the fallback link below. */}
+          read its content height or restyle it, and it emits no resize postMessage).
+          Sized to the viewport so the calendar is fully on screen without scrolling the
+          page; the iframe is rendered oversized and CSS-scaled down (SCALE) so ~1/3 more
+          of the booking flow - crucially the date grid - fits inside that height. 8.5rem
+          = header + page padding above the widget + room for the fallback link below. */}
       <div className="relative overflow-hidden rounded-2xl border border-border bg-surface h-[calc(100svh-13rem)] lg:h-[calc(100svh-8.5rem)] min-h-[480px]">
         {!loaded && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
@@ -95,7 +101,13 @@ export function BookingWidget() {
               title="Book your discovery call"
               onLoad={onIframeLoad}
               allow="camera; microphone; payment"
-              className="w-full h-full border-0"
+              className="border-0"
+              style={{
+                width: `${100 / SCALE}%`,
+                height: `${100 / SCALE}%`,
+                transform: `scale(${SCALE})`,
+                transformOrigin: "top left",
+              }}
             />
           )
         )}
