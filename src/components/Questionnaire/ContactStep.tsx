@@ -74,19 +74,19 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
   };
   const showErr = (name: string) => Boolean(blurred[name] && errors[name]);
 
-  const field = "w-full rounded-xl border bg-background px-4 py-3.5 text-foreground placeholder:text-muted-dim focus:outline-none";
+  const field = "w-full rounded-xl border bg-background px-4 py-3 text-foreground placeholder:text-muted-dim focus:outline-none";
   const errClass = (name: string) => (showErr(name) ? "border-primary-light" : "border-border focus:border-primary");
   const FieldError = ({ name }: { name: string }) =>
     showErr(name) ? <p className="mt-1.5 text-xs text-primary-light">{MESSAGES[name]}</p> : null;
 
   return (
     <div>
-      <h3 className="text-2xl md:text-3xl font-display font-semibold leading-tight">{question}</h3>
-      {subtext && <p className="mt-3 text-muted">{subtext}</p>}
+      <h3 className="text-xl md:text-2xl font-display font-semibold leading-tight">{question}</h3>
+      {subtext && <p className="mt-2 text-muted">{subtext}</p>}
 
       {/* Privacy reassurance lives WITH the fields (not as fine print under the
           button) - it's doing persuasion work at the moment of hesitation. */}
-      <p className="mt-5 flex items-center gap-2.5 rounded-lg border border-border bg-background/60 px-3.5 py-2.5 text-sm text-foreground/90">
+      <p className="mt-4 flex items-center gap-2.5 rounded-lg border border-border bg-background/60 px-3.5 py-2 text-sm text-foreground/90">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0 text-primary">
           <rect x="4.5" y="10.5" width="15" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
           <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -94,8 +94,8 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
         {content.contact.privacyNote}
       </p>
 
-      <div className="mt-5 grid gap-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="mt-4 grid gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <input
               autoFocus
@@ -183,18 +183,18 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
 
         {/* SMS consent: dedicated, unchecked by default, optional (does not gate submit).
             The bold callout + gold border exist so nobody misses the box. */}
-        <div className="mt-1 rounded-lg border border-primary/35 bg-background/60 p-4">
+        <div className="mt-1 rounded-lg border border-primary/35 bg-background/60 p-3">
           <p className="text-sm font-semibold text-foreground">{content.contact.smsCallout}</p>
-          <label className="mt-3 flex items-start gap-3 cursor-pointer">
+          <label className="mt-2 flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={value.smsConsent}
               onChange={(e) => onChange({ smsConsent: e.target.checked })}
               className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--primary)]"
             />
-            <span className="text-[0.8rem] leading-relaxed text-muted">{content.contact.smsLine}</span>
+            <span className="text-xs leading-normal text-muted">{content.contact.smsLine}</span>
           </label>
-          <p className="mt-2.5 pl-8 text-xs text-muted-dim">
+          <p className="mt-2 pl-8 text-xs text-muted-dim">
             <a href={content.contact.privacyHref} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">
               {content.contact.privacyLabel}
             </a>
@@ -212,7 +212,7 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
         disabled={!canSubmit}
         aria-disabled={!canSubmit}
         className={clsx(
-          "btn-primary mt-7 w-full sm:w-auto transition-opacity duration-200",
+          "btn-primary mt-4 w-full sm:w-auto transition-opacity duration-200",
           canSubmit ? "opacity-100" : "opacity-40 cursor-not-allowed"
         )}
       >

@@ -50,10 +50,10 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
 
   return (
     <div>
-      <h3 className="text-2xl md:text-3xl font-display font-semibold leading-tight">{question}</h3>
-      {subtext && <p className="mt-3 text-muted">{subtext}</p>}
+      <h3 className="text-xl md:text-2xl font-display font-semibold leading-tight">{question}</h3>
+      {subtext && <p className="mt-2 text-muted">{subtext}</p>}
 
-      <div className="mt-7 grid gap-3">
+      <div className="mt-5 grid gap-2.5">
         {options.map((opt) => {
           const active = pending === opt.value || otherOpen === opt.value || (!pending && !otherOpen && value === opt.value);
           return (
@@ -62,13 +62,13 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
               type="button"
               onClick={() => choose(opt)}
               className={clsx(
-                "group flex items-center justify-between gap-4 rounded-xl border px-5 py-4 text-left transition-all",
+                "group flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-left transition-all",
                 active
                   ? "border-primary bg-primary/10"
                   : "border-border bg-background hover:border-primary/50 hover:bg-surface"
               )}
             >
-              <span className="text-lg text-foreground">{opt.label}</span>
+              <span className="text-base text-foreground">{opt.label}</span>
               <span
                 className={clsx(
                   "grid place-items-center h-6 w-6 rounded-full border transition-colors",
@@ -95,7 +95,7 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
             }}
             placeholder={options.find((o) => o.value === otherOpen)?.textPlaceholder || "Say it in your own words..."}
             rows={3}
-            className="w-full resize-none rounded-xl border border-border bg-background px-5 py-4 text-lg text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
+            className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
           />
           {touched && !otherValid && (
             <p className="mt-2 text-sm text-primary-light">A few words is all it needs.</p>

@@ -68,14 +68,11 @@ export function BookingWidget() {
   return (
     <div>
       {/* The embedded booking page is a full standalone app (cross-origin, so we can't
-          read its content height, and it emits no resize postMessage). To avoid a
-          scrollbar-inside-a-scrollbar, we give the iframe enough height to hold the whole
-          calendar card (date grid + a full day's time-slot list) and let the OUTER page
-          scroll normally. Tuned to fit typical availability; nudge if slots ever clip. */}
-      <div
-        className="relative overflow-hidden rounded-2xl border border-border bg-surface"
-        style={{ height: 1120 }}
-      >
+          read its content height, and it emits no resize postMessage). Sized to the
+          viewport so the calendar is fully on screen without scrolling the page; if a
+          day's slot list runs long, the iframe scrolls internally. 8.5rem = header +
+          page padding above the widget + breathing room for the fallback link below. */}
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface h-[calc(100svh-13rem)] lg:h-[calc(100svh-8.5rem)] min-h-[480px]">
         {!loaded && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
             <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
@@ -106,7 +103,7 @@ export function BookingWidget() {
 
       {/* Always-available escape hatch: covers CSP frame-ancestors blocks, strict privacy
           settings, etc. - the embed can silently fail without triggering the load timeout. */}
-      <p className="mt-3 text-center text-xs text-muted-dim">
+      <p className="mt-2 text-center text-xs text-muted-dim">
         Calendar not loading?{" "}
         <a href={externalLink} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-primary">
           Open it in a new tab

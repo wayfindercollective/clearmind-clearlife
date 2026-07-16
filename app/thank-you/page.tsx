@@ -12,19 +12,22 @@ export default function ThankYou() {
   return (
     <div className="min-h-screen">
       <header className="border-b border-border">
-        <div className="container-tight flex items-center h-14 md:h-16">
+        <div className="container-tight flex items-center h-12 md:h-14">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={content.brand.logo} alt={content.brand.name} className="h-8 md:h-10 w-auto" />
+          <img src={content.brand.logo} alt={content.brand.name} className="h-7 md:h-8 w-auto" />
         </div>
       </header>
 
-      {/* Everything above the calendar is deliberately compact: the whole point of
-          this page is picking a time, so the date grid must land in the first
-          viewport without scrolling - centered where the application form sat. */}
-      <main className="container-tight pt-8 pb-14 md:pt-10">
-        <div className="mx-auto max-w-3xl">
-          <div className="text-center">
-            <p className="mb-3 flex items-center justify-center gap-2.5 text-xs uppercase tracking-[0.15em] text-muted font-semibold">
+      {/* The calendar IS the page: it starts at the top edge and is sized to the
+          viewport (see BookingWidget). Confirmation copy + the 1-2-3 steps live in a
+          slim sidebar on desktop; on mobile the heading and widget come first and the
+          steps follow (grid placement below, not DOM order). */}
+      <main className="container-tight pt-5 md:pt-6 pb-10">
+        {/* rows-[auto_1fr] pins row 1 to the heading's height so the steps list sits
+            directly under it instead of the tall widget inflating row 1. */}
+        <div className="grid gap-x-8 gap-y-5 lg:grid-cols-[minmax(250px,310px)_1fr] lg:grid-rows-[auto_1fr] lg:items-start">
+          <div>
+            <p className="mb-2.5 flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-muted font-semibold">
               <span className="grid place-items-center h-5 w-5 rounded-full bg-primary text-black">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
                   <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
@@ -32,12 +35,16 @@ export default function ThankYou() {
               </span>
               {t.kicker}
             </p>
-            <h1 className="text-[clamp(1.7rem,3.5vw,2.4rem)] leading-[1.06] font-semibold">{t.heading}</h1>
+            <h1 className="text-2xl md:text-[1.7rem] leading-[1.1] font-semibold">{t.heading}</h1>
           </div>
 
-          <ol className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2">
+            <BookingWidget />
+          </div>
+
+          <ol className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1 lg:col-start-1 lg:row-start-2 lg:mt-2">
             {t.nextSteps.map((stepText, i) => (
-              <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3.5">
+              <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3">
                 <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
                   {i + 1}
                 </span>
@@ -45,10 +52,6 @@ export default function ThankYou() {
               </li>
             ))}
           </ol>
-
-          <div className="mt-6">
-            <BookingWidget />
-          </div>
         </div>
       </main>
     </div>
