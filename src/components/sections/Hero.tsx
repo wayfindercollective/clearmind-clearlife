@@ -7,21 +7,21 @@ export function Hero() {
   const h = content.hero;
   const a = content.apply;
   return (
-    <section id="top" className="relative pt-20 md:pt-24 pb-14 md:pb-20 border-b border-border">
+    <section id="top" className="relative pt-20 md:pt-24 short:pt-[4.5rem] pb-14 md:pb-20 short:pb-10 border-b border-border">
       <div className="container-tight">
         <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           {/* Copy — left-aligned so the kicker hairline, headline and subhead all sit flush */}
           <div className="max-w-xl">
             <Kicker>{h.kicker}</Kicker>
 
-            <h1 className="mt-6 font-display font-extrabold text-[clamp(2.2rem,4.2vw,3.5rem)] leading-[1.04]">
+            <h1 className="mt-6 short:mt-5 font-display font-extrabold text-[clamp(2.2rem,4.2vw,3.5rem)] short:text-[clamp(2rem,3.6vw,2.75rem)] leading-[1.04]">
               {h.headline}{" "}
               <span className="block text-muted-dim font-bold">{h.headlineDim}</span>
             </h1>
 
-            <p className="mt-6 text-lg text-muted leading-relaxed">{h.subhead}</p>
+            <p className="mt-6 short:mt-4 text-lg short:text-base text-muted leading-relaxed">{h.subhead}</p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <div className="mt-8 short:mt-6 flex flex-wrap items-center gap-x-7 gap-y-4">
               {/* On desktop the form is beside this copy, so the button only earns its
                   place on smaller screens where the form sits below the fold. Hidden via
                   a wrapper: .btn-primary's unlayered display beats an lg:hidden utility. */}
@@ -43,11 +43,11 @@ export function Hero() {
           <section
             id="apply"
             aria-label="Application form"
-            className="apply-glow rounded-2xl border border-border-strong bg-surface-2 p-5 sm:p-6 shadow-[0_30px_90px_-40px_rgba(0,0,0,0.9)]"
+            className="apply-glow rounded-2xl border border-border-strong bg-surface-2 p-5 sm:p-6 short:p-4 shadow-[0_30px_90px_-40px_rgba(0,0,0,0.9)]"
           >
-            <div className="mb-4">
-              <h2 className="text-lg font-display font-bold">{a.heading}</h2>
-              <p className="mt-1 text-sm text-muted leading-relaxed">{a.intro}</p>
+            <div className="mb-4 short:mb-2">
+              <h2 className="text-lg short:text-base font-display font-bold">{a.heading}</h2>
+              <p className="mt-1 text-sm short:text-xs text-muted leading-relaxed">{a.intro}</p>
             </div>
             <Questionnaire />
           </section>

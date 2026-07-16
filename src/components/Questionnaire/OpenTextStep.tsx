@@ -29,8 +29,8 @@ export function OpenTextStep({ question, subtext, placeholder, minLength, option
 
   return (
     <div>
-      <h3 className="text-xl md:text-2xl font-display font-semibold leading-tight">{question}</h3>
-      {subtext && <p className="mt-2 text-muted">{subtext}</p>}
+      <h3 className="text-xl md:text-2xl short:text-lg font-display font-semibold leading-tight">{question}</h3>
+      {subtext && <p className="mt-2 short:mt-1 short:text-sm text-muted">{subtext}</p>}
 
       <textarea
         autoFocus
@@ -41,7 +41,7 @@ export function OpenTextStep({ question, subtext, placeholder, minLength, option
         }}
         placeholder={placeholder}
         rows={4}
-        className="mt-5 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
+        className="mt-5 short:mt-3 w-full resize-none rounded-xl border border-border bg-background px-4 py-3 short:py-2 text-base text-foreground placeholder:text-muted-dim focus:border-primary focus:outline-none"
       />
       {touched && !valid && (
         <p className="mt-2 text-sm text-primary-light">A few words is plenty - whatever feels true.</p>

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* short: — compact tier for viewports under 800px of height (small laptops,
+   OS/browser font scaling inflating rem sizes). The hero form MUST fit above
+   the fold; these variants shave vertical rhythm without changing layout. */
+@custom-variant short (@media (max-height: 800px));
+
 /* ─────────────────────────────────────────────────────────────────────────
    Clear Mind, Clear Life — design system
    Palette sampled from Dan's logo (black / gold / platinum). Type = Archivo

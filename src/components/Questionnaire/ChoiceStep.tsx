@@ -50,10 +50,10 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
 
   return (
     <div>
-      <h3 className="text-xl md:text-2xl font-display font-semibold leading-tight">{question}</h3>
-      {subtext && <p className="mt-2 text-muted">{subtext}</p>}
+      <h3 className="text-xl md:text-2xl short:text-lg font-display font-semibold leading-tight">{question}</h3>
+      {subtext && <p className="mt-2 short:mt-1 short:text-sm text-muted">{subtext}</p>}
 
-      <div className="mt-5 grid gap-2.5">
+      <div className="mt-5 short:mt-3 grid gap-2.5 short:gap-2">
         {options.map((opt) => {
           const active = pending === opt.value || otherOpen === opt.value || (!pending && !otherOpen && value === opt.value);
           return (
@@ -62,13 +62,13 @@ export function ChoiceStep({ question, subtext, options, value, detailValue, onS
               type="button"
               onClick={() => choose(opt)}
               className={clsx(
-                "group flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-left transition-all",
+                "group flex items-center justify-between gap-4 rounded-xl border px-4 py-3 short:py-2 short:px-3.5 text-left transition-all",
                 active
                   ? "border-primary bg-primary/10"
                   : "border-border bg-background hover:border-primary/50 hover:bg-surface"
               )}
             >
-              <span className="text-base text-foreground">{opt.label}</span>
+              <span className="text-base short:text-[15px] text-foreground">{opt.label}</span>
               <span
                 className={clsx(
                   "grid place-items-center h-6 w-6 rounded-full border transition-colors",

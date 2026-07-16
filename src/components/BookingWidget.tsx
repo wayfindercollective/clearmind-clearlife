@@ -6,16 +6,50 @@ import { content } from "@/config/content";
 // Env override wins (e.g. a test slug on preview); otherwise the committed slug is used.
 const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG || content.brand.bookingSlug;
 
-// Visual zoom applied to the embedded booking app (iframe rendered at 1/SCALE size,
-// scaled back down). 0.75 shows the intro card AND the date grid in one viewport-height
-// widget without inner scrolling; below ~0.7 the app's small labels get hard to read.
-const SCALE = 0.75;
+/* Sizing model - all in px, deliberately: the host page is rem-sized and users run
+   OS/browser font scaling that inflates rem, but the app inside the iframe keeps its
+   own 16px root. Sizing the box in px keeps box and content in lockstep.
+
+   Numbers measured against the live booking app:
+   - two-column layout needs >= ~1030px of internal width (breakpoint is 1024)
+   - in that layout, content starts 64px in (croppable padding) and ends by ~740px
+     internal even with a full day's time-slot list open
+   The widget renders the iframe oversized at the largest scale that preserves the
+   two-column layout for its column width, then crops the top and cuts the box at
+   content height - so the calendar is as large as the column allows, with no dead
+   band. Narrow columns (mobile) keep the app's stacked layout at a fixed 0.75. */
+const TWO_COL_INTERNAL = 1040;
+const TOP_PAD = 64;
+const CONTENT_BOTTOM = 740;
+const MOBILE_SCALE = 0.75;
 
 export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
+  const [colWidth, setColWidth] = useState(0);
   const resetOnce = useRef(false);
+  const boxRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const update = () => setColWidth(el.clientWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // >= 700px of column: desktop regime, scale up as far as the column allows
+  // (capped at 1:1) while keeping the internal width two-column. Below that,
+  // the app's stacked mobile layout at a readable fixed scale.
+  const desktop = colWidth >= 700;
+  const scale = desktop ? Math.min(1, colWidth / TWO_COL_INTERNAL) : MOBILE_SCALE;
+  const crop = desktop ? TOP_PAD * scale : 0;
+  const boxStyle: React.CSSProperties = desktop
+    ? { height: `min(${Math.round((CONTENT_BOTTOM - TOP_PAD) * scale)}px, calc(100svh - 8.5rem))` }
+    : { height: "calc(100svh - 13rem)", minHeight: 420 };
 
   useEffect(() => {
     if (!BOOKING_SLUG) return;
@@ -72,19 +106,7 @@ export function BookingWidget() {
 
   return (
     <div>
-      {/* The embedded booking page is a full standalone app (cross-origin, so we can't
-          read its content height or restyle it, and it emits no resize postMessage).
-          The iframe is rendered oversized and CSS-scaled down (SCALE) so the app keeps
-          its two-column desktop layout (breakpoint 1024px internal - measured; don't
-          raise SCALE above ~0.77 or it collapses to the tall stacked layout).
-
-          Desktop sizing is fit-to-content, measured against the live booking app at
-          this internal width: content starts 64px in (48px at SCALE - cropped via
-          --crop + negative margin) and ends by ~740px internal even with a full day's
-          time-slot list open, so a 32.5rem container shows the whole flow with no dead
-          band under the date grid. Mobile keeps --crop 0 (the stacked layout only has
-          ~16px top padding) and stays viewport-fit. */}
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface [--crop:0px] lg:[--crop:48px] h-[calc(100svh-13rem)] lg:h-[min(32.5rem,calc(100svh-8.5rem))] min-h-[420px]">
+      <div ref={boxRef} className="relative overflow-hidden rounded-2xl border border-border bg-surface" style={boxStyle}>
         {!loaded && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
             <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
@@ -109,11 +131,11 @@ export function BookingWidget() {
               allow="camera; microphone; payment"
               className="border-0"
               style={{
-                width: `${100 / SCALE}%`,
-                // the cropped band still needs rendering, so the iframe is taller by crop/SCALE
-                height: `calc(${100 / SCALE}% + calc(var(--crop) / ${SCALE}))`,
-                marginTop: "calc(var(--crop) * -1)",
-                transform: `scale(${SCALE})`,
+                width: `${100 / scale}%`,
+                // the cropped band still needs rendering, so the iframe is taller by crop/scale
+                height: `calc(${100 / scale}% + ${Math.round(crop / scale)}px)`,
+                marginTop: -crop,
+                transform: `scale(${scale})`,
                 transformOrigin: "top left",
               }}
             />
