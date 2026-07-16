@@ -107,7 +107,49 @@ p { text-wrap: pretty; }
   background: var(--border-strong);
 }
 
-/* ─── Buttons: ONE solid + ONE hairline. No glow, no pulse, no lift. ────── */
+/* ─── Attention affordances (deliberate exceptions to the no-glow rule) ────
+   Client-requested conversion cues, July 2026: the application card pulses a
+   gold edge glow, and Apply CTAs run a shine sweep - but ONLY while the form
+   is off-screen (CTAButton toggles .btn-shine via an IntersectionObserver).
+   Both animate compositor-friendly properties (opacity / transform), not
+   box-shadow or left, so they add no per-frame paint cost while scrolling. */
+.apply-glow { position: relative; }
+.apply-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(240, 194, 74, 0.55), 0 0 38px -2px rgba(240, 194, 74, 0.4);
+  opacity: 0.25;
+  animation: apply-glow-pulse 2.6s ease-in-out infinite;
+}
+@keyframes apply-glow-pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  transform: translateX(-140%) skewX(-20deg);
+  animation: cta-shine 2s ease-in-out infinite;
+  pointer-events: none;
+}
+/* Sweep crosses in the first second, rests the second - one pass every 2s. */
+@keyframes cta-shine {
+  0% { transform: translateX(-140%) skewX(-20deg); }
+  50%, 100% { transform: translateX(320%) skewX(-20deg); }
+}
+
+/* ─── Buttons: ONE solid + ONE hairline. No glow, no pulse, no lift
+       (except the .btn-shine / .apply-glow cues above). ─────────────────── */
 .btn-primary {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
   background: var(--primary);

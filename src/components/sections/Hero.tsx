@@ -43,7 +43,7 @@ export function Hero() {
           <section
             id="apply"
             aria-label="Application form"
-            className="rounded-2xl border border-border-strong bg-surface-2 p-5 sm:p-6 shadow-[0_30px_90px_-40px_rgba(0,0,0,0.9)]"
+            className="apply-glow rounded-2xl border border-border-strong bg-surface-2 p-5 sm:p-6 shadow-[0_30px_90px_-40px_rgba(0,0,0,0.9)]"
           >
             <div className="mb-4">
               <h2 className="text-lg font-display font-bold">{a.heading}</h2>
