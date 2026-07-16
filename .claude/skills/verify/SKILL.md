@@ -15,5 +15,8 @@ description: Build, launch, and visually verify the clearmind-clearlife funnel p
 - ⚠️ NEVER click Submit on the contact step — it posts a real lead to the production
   Wayfinder webhook. Fill the fields to check validation/enable state, then stop.
   Verify `/thank-you` by navigating to it directly.
-- The `/thank-you` booking iframe is the external Wayfinder booking app — it often sits on
-  its spinner in headless runs. Verify page layout and iframe geometry, not iframe content.
+- The `/thank-you` booking iframe is ALWAYS blank on localhost: the Wayfinder booking app's
+  CSP `frame-ancestors` whitelists production domains only. Verify page layout and iframe
+  geometry locally; to check the app's own content/coordinates, load
+  https://wayfindercollective.io/book/team/dan-team DIRECTLY (not framed) in Playwright —
+  it renders fine there, and clicking a date/time is safe (booking needs a final Confirm).
