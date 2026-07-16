@@ -74,11 +74,17 @@ export function BookingWidget() {
     <div>
       {/* The embedded booking page is a full standalone app (cross-origin, so we can't
           read its content height or restyle it, and it emits no resize postMessage).
-          Sized to the viewport so the calendar is fully on screen without scrolling the
-          page; the iframe is rendered oversized and CSS-scaled down (SCALE) so ~1/3 more
-          of the booking flow - crucially the date grid - fits inside that height. 8.5rem
-          = header + page padding above the widget + room for the fallback link below. */}
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface h-[calc(100svh-13rem)] lg:h-[calc(100svh-8.5rem)] min-h-[480px]">
+          The iframe is rendered oversized and CSS-scaled down (SCALE) so the app keeps
+          its two-column desktop layout (breakpoint 1024px internal - measured; don't
+          raise SCALE above ~0.77 or it collapses to the tall stacked layout).
+
+          Desktop sizing is fit-to-content, measured against the live booking app at
+          this internal width: content starts 64px in (48px at SCALE - cropped via
+          --crop + negative margin) and ends by ~740px internal even with a full day's
+          time-slot list open, so a 32.5rem container shows the whole flow with no dead
+          band under the date grid. Mobile keeps --crop 0 (the stacked layout only has
+          ~16px top padding) and stays viewport-fit. */}
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-surface [--crop:0px] lg:[--crop:48px] h-[calc(100svh-13rem)] lg:h-[min(32.5rem,calc(100svh-8.5rem))] min-h-[420px]">
         {!loaded && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
             <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
@@ -104,7 +110,9 @@ export function BookingWidget() {
               className="border-0"
               style={{
                 width: `${100 / SCALE}%`,
-                height: `${100 / SCALE}%`,
+                // the cropped band still needs rendering, so the iframe is taller by crop/SCALE
+                height: `calc(${100 / SCALE}% + calc(var(--crop) / ${SCALE}))`,
+                marginTop: "calc(var(--crop) * -1)",
                 transform: `scale(${SCALE})`,
                 transformOrigin: "top left",
               }}
