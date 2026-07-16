@@ -41,7 +41,10 @@ export default function ThankYou() {
             <h1 className="text-2xl md:text-[1.7rem] leading-[1.1] font-semibold">{t.heading}</h1>
           </div>
 
-          <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2">
+          {/* min-w-0: grid items default to min-width auto, so the widget's px-sized
+              box would stretch this cell and feed its own width back into the
+              column measurement (locking mobile into the desktop layout). */}
+          <div className="min-w-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
             <BookingWidget />
           </div>
 

@@ -31,17 +31,20 @@ const PANEL_LEFT = 590;
 const PANEL_RIGHT = 1290;
 const PANEL_TOP = 64;
 const PANEL_BOTTOM = 600;
-const MAX_SCALE = 1.25;
+const MAX_SCALE = 1.4;
+// Mobile (stacked app layout): intro card ends ~355px in, content ends ~890px -
+// same crop idea, tuned with a safety band since the card height varies with width.
 const MOBILE_SCALE = 0.75;
-// px kept free above/below the box (header, page padding, fallback link)
-const CHROME_RESERVE = 150;
+const MOBILE_TOP = 330;
+const MOBILE_BOTTOM = 890;
 
 export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
   const [colWidth, setColWidth] = useState(0);
-  const [viewH, setViewH] = useState(0);
+  const [availH, setAvailH] = useState(0);
   const resetOnce = useRef(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
 
@@ -50,7 +53,11 @@ export function BookingWidget() {
     if (!el || typeof ResizeObserver === "undefined") return;
     const update = () => {
       setColWidth(el.parentElement?.clientWidth ?? el.clientWidth);
-      setViewH(window.innerHeight);
+      // The widget should fill the viewport below the header: available height =
+      // viewport minus everything above the box (measured, so it tracks the
+      // rem-sized header at any font scaling) minus a small bottom inset.
+      const docTop = el.getBoundingClientRect().top + window.scrollY;
+      setAvailH(window.innerHeight - docTop - 12);
     };
     update();
     const ro = new ResizeObserver(update);
@@ -71,10 +78,10 @@ export function BookingWidget() {
     ? MOBILE_SCALE
     : colWidth === 0
       ? 1
-      : Math.max(0.6, Math.min(MAX_SCALE, (viewH - CHROME_RESERVE) / panelH, colWidth / panelW));
+      : Math.max(0.6, Math.min(MAX_SCALE, availH / panelH, colWidth / panelW));
   const boxStyle: React.CSSProperties = desktop
-    ? { width: Math.round(panelW * scale), height: Math.round(panelH * scale), marginInline: "auto" }
-    : { height: "calc(100svh - 13rem)", minHeight: 420 };
+    ? { width: Math.round(panelW * scale), maxWidth: "100%", height: Math.round(panelH * scale), marginInline: "auto" }
+    : { height: Math.round((MOBILE_BOTTOM - MOBILE_TOP) * MOBILE_SCALE) };
   const frameStyle: React.CSSProperties = desktop
     ? {
         width: FRAME_W,
@@ -86,7 +93,8 @@ export function BookingWidget() {
       }
     : {
         width: `${100 / MOBILE_SCALE}%`,
-        height: `${100 / MOBILE_SCALE}%`,
+        height: MOBILE_BOTTOM, // internal viewport ends at the stacked content bottom
+        marginTop: -Math.round(MOBILE_TOP * MOBILE_SCALE),
         transform: `scale(${MOBILE_SCALE})`,
         transformOrigin: "top left",
       };
@@ -118,6 +126,10 @@ export function BookingWidget() {
 
   const onIframeLoad = () => {
     setLoaded(true);
+    // Keep our spinner overlay up while the app runs its availability check -
+    // it relayouts the date grid when results land, which reads as a flicker if
+    // the user watches it. Reveal once that dance is (very likely) done.
+    setTimeout(() => setRevealed(true), 1400);
     // The embedded calendar auto-focuses a control on load, which makes the browser
     // scroll the whole page down to it (past the heading). Reset to top once, right
     // after the first load, to keep the confirmation heading in view.
@@ -147,7 +159,7 @@ export function BookingWidget() {
   return (
     <div>
       <div ref={boxRef} className="relative overflow-hidden rounded-2xl border border-border bg-surface" style={boxStyle}>
-        {!loaded && !timedOut && (
+        {!revealed && !timedOut && (
           <div className="absolute inset-0 grid place-items-center">
             <span className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
           </div>
@@ -169,8 +181,8 @@ export function BookingWidget() {
               title="Book your discovery call"
               onLoad={onIframeLoad}
               allow="camera; microphone; payment"
-              className="border-0"
-              style={frameStyle}
+              className="border-0 transition-opacity duration-300"
+              style={{ ...frameStyle, opacity: revealed ? 1 : 0 }}
             />
           )
         )}
