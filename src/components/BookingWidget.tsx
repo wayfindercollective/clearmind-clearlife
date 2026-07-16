@@ -48,7 +48,7 @@ export function BookingWidget() {
   const scale = desktop ? Math.min(1, colWidth / TWO_COL_INTERNAL) : MOBILE_SCALE;
   const crop = desktop ? TOP_PAD * scale : 0;
   const boxStyle: React.CSSProperties = desktop
-    ? { height: `min(${Math.round((CONTENT_BOTTOM - TOP_PAD) * scale)}px, calc(100svh - 8.5rem))` }
+    ? { height: `min(${Math.round((CONTENT_BOTTOM - TOP_PAD) * scale)}px, calc(100svh - 8rem))` }
     : { height: "calc(100svh - 13rem)", minHeight: 420 };
 
   useEffect(() => {

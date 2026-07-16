@@ -1,8 +1,8 @@
 export function ProgressBar({ step, total }: { step: number; total: number }) {
   const pct = Math.round(((step + 1) / total) * 100);
   return (
-    <div className="mb-5 short:mb-3">
-      <div className="flex items-center justify-between mb-2 short:mb-1.5 text-xs text-muted uppercase tracking-[0.2em]">
+    <div className="mb-5 short:mb-4">
+      <div className="flex items-center justify-between mb-2 text-xs text-muted uppercase tracking-[0.2em]">
         <span>
           Step {step + 1} of {total}
         </span>

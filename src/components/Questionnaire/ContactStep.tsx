@@ -81,8 +81,8 @@ export function ContactStep({ question, subtext, value, onChange, onSubmit, onBl
 
   return (
     <div>
-      <h3 className="text-xl md:text-2xl short:text-lg font-display font-semibold leading-tight">{question}</h3>
-      {subtext && <p className="mt-2 short:mt-1 short:text-sm text-muted">{subtext}</p>}
+      <h3 className="text-xl md:text-2xl short:text-xl font-display font-semibold leading-tight">{question}</h3>
+      {subtext && <p className="mt-2 text-muted">{subtext}</p>}
 
       {/* Privacy reassurance lives WITH the fields (not as fine print under the
           button) - it's doing persuasion work at the moment of hesitation. */}

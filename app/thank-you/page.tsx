@@ -25,7 +25,7 @@ export default function ThankYou() {
       {/* Wider than container-tight and with a slimmer sidebar: every extra px of
           calendar column raises the embed's scale (see BookingWidget), so the dates
           render larger. */}
-      <main className="mx-auto max-w-[82rem] px-6 pt-5 md:pt-6 pb-10">
+      <main className="mx-auto max-w-[82rem] px-6 pt-3 md:pt-4 pb-10">
         {/* rows-[auto_1fr] pins row 1 to the heading's height so the steps list sits
             directly under it instead of the tall widget inflating row 1. */}
         <div className="grid gap-x-8 gap-y-5 lg:grid-cols-[minmax(240px,270px)_1fr] lg:grid-rows-[auto_1fr] lg:items-start">
