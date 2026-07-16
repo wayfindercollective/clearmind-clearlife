@@ -5,8 +5,8 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 export function Framework() {
   const s = content.framework;
   return (
-    <section id="method" className="py-24 md:py-32 border-t border-border">
-      <div className="container-tight">
+    <section id="method" className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-tight w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} intro={s.lede} />
 
         <div className="mt-14 border-t border-border max-w-3xl mx-auto">

@@ -8,8 +8,8 @@ import { TestimonialVideo } from "@/components/TestimonialVideo";
 export function Testimonials() {
   const s = content.results;
   return (
-    <section id="results" className="py-24 md:py-32 border-t border-border">
-      <div className="container-tight">
+    <section id="results" className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-tight w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} intro={s.intro} />
 
         {/* Featured client story (Grant) */}

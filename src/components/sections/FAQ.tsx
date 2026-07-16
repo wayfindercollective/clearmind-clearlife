@@ -6,8 +6,8 @@ import { FaqItem } from "@/components/sections/FaqItem";
 export function FAQ() {
   const s = content.faq;
   return (
-    <section id="faq" className="py-24 md:py-32 border-t border-border">
-      <div className="container-narrow">
+    <section id="faq" className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-narrow w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} />
         <div className="mt-12 border-t border-border">
           {s.items.map((item, i) => (

@@ -6,8 +6,8 @@ import { CTAButton } from "@/components/ui/CTAButton";
 export function Outcomes() {
   const s = content.outcomes;
   return (
-    <section className="py-24 md:py-32 border-t border-border">
-      <div className="container-tight">
+    <section className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-tight w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} />
 
         <ul className="mt-12 grid gap-x-12 sm:grid-cols-2 max-w-4xl mx-auto border-t border-border text-left">

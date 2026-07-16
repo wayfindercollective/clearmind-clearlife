@@ -5,8 +5,8 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 export function PerformanceTax() {
   const s = content.performanceTax;
   return (
-    <section id="problem" className="py-24 md:py-32 border-t border-border">
-      <div className="container-tight">
+    <section id="problem" className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-tight w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} intro={s.intro} />
 
         <ul className="mt-12 max-w-3xl mx-auto border-t border-border">

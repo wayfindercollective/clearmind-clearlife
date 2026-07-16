@@ -7,8 +7,8 @@ export function Hero() {
   const h = content.hero;
   const a = content.apply;
   return (
-    <section id="top" className="relative pt-20 md:pt-24 short:pt-[4.5rem] pb-14 md:pb-20 short:pb-10 border-b border-border">
-      <div className="container-tight">
+    <section id="top" className="section-screen relative pt-20 md:pt-24 short:pt-[4.5rem] pb-14 md:pb-20 short:pb-10 border-b border-border">
+      <div className="container-tight w-full">
         <div className="grid items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           {/* Copy — left-aligned so the kicker hairline, headline and subhead all sit flush */}
           <div className="max-w-xl">

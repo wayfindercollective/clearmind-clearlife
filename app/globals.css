@@ -93,6 +93,15 @@ p { text-wrap: pretty; }
 .container-tight { max-width: 74rem; margin-inline: auto; padding-inline: 1.5rem; }
 .container-narrow { max-width: 48rem; margin-inline: auto; padding-inline: 1.5rem; }
 
+/* Every landing section fills the viewport ("one idea per screen"); content is
+   vertically centered and the section grows past 100svh only when it must.
+   Inner containers need w-full - flex items otherwise shrink to fit. */
+.section-screen {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
 /* ─── Kicker (quiet section label — replaces the loud gold eyebrow) ─────── */
 .kicker {
   display: inline-flex;

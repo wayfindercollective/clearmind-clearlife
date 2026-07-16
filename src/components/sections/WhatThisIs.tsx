@@ -7,8 +7,8 @@ import { TestimonialVideo } from "@/components/TestimonialVideo";
 export function WhatThisIs() {
   const s = content.whatThisIs;
   return (
-    <section className="py-24 md:py-32 border-t border-border">
-      <div className="container-tight">
+    <section className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-tight w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} />
 
         {/* Copy left, Greg's endorsement of working with Dan on the right */}

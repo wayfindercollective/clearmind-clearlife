@@ -5,8 +5,8 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 export function WhoItsFor() {
   const s = content.whoItsFor;
   return (
-    <section className="py-24 md:py-32 border-t border-border">
-      <div className="container-tight">
+    <section className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-tight w-full">
         <SectionHeading kicker={s.kicker} heading={s.heading} />
 
         <div className="mt-14 grid gap-x-16 gap-y-12 md:grid-cols-2 max-w-4xl mx-auto text-left">

@@ -6,8 +6,8 @@ import { Kicker } from "@/components/ui/Kicker";
 export function BottomCTA() {
   const s = content.bottomCta;
   return (
-    <section className="py-28 md:py-36 border-t border-border">
-      <div className="container-narrow">
+    <section className="section-screen py-16 md:py-20 border-t border-border">
+      <div className="container-narrow w-full">
         <ScrollReveal className="flex flex-col items-center text-center">
           <Kicker>{s.kicker}</Kicker>
           <h2 className="mt-6 text-[clamp(2rem,5vw,3.4rem)] font-display font-extrabold">{s.heading}</h2>

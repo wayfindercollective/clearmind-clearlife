@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { content } from "@/config/content";
+
+// useLayoutEffect on the client so sizing lands before first paint (no visible
+// shift); plain useEffect during SSR to avoid the React server warning.
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 // Env override wins (e.g. a test slug on preview); otherwise the committed slug is used.
 const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG || content.brand.bookingSlug;
@@ -14,14 +18,16 @@ const BOOKING_SLUG = process.env.NEXT_PUBLIC_WAYFINDER_BOOKING_SLUG || content.b
    - two-column layout needs >= ~1030px of internal width (breakpoint is 1024)
    - in that layout, content starts 64px in (croppable padding) and ends by ~740px
      internal even with a full day's time-slot list open
-   The widget renders the iframe oversized at the largest scale that preserves the
-   two-column layout for its column width, then crops the top and cuts the box at
-   content height - so the calendar is as large as the column allows, with no dead
-   band. Narrow columns (mobile) keep the app's stacked layout at a fixed 0.75. */
+   - the calendar panel is FLUID: it takes all internal width beyond the fixed-width
+     intro card. So a WIDER internal viewport = a visibly larger calendar. That's why
+     the scale is a constant 0.75 (internal = column/0.75) rather than "as close to
+     1 as fits": scaling toward 1 narrows the internal viewport and shrinks the panel.
+     Only columns under 780px reduce scale further, to hold internal width at the
+     two-column minimum. Narrow columns (<700, mobile) keep the app's stacked layout. */
 const TWO_COL_INTERNAL = 1040;
 const TOP_PAD = 64;
 const CONTENT_BOTTOM = 740;
-const MOBILE_SCALE = 0.75;
+const BASE_SCALE = 0.75;
 
 export function BookingWidget() {
   const [url, setUrl] = useState<string | null>(null);
@@ -31,7 +37,7 @@ export function BookingWidget() {
   const resetOnce = useRef(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = boxRef.current;
     if (!el || typeof ResizeObserver === "undefined") return;
     const update = () => setColWidth(el.clientWidth);
@@ -41,11 +47,11 @@ export function BookingWidget() {
     return () => ro.disconnect();
   }, []);
 
-  // >= 700px of column: desktop regime, scale up as far as the column allows
-  // (capped at 1:1) while keeping the internal width two-column. Below that,
-  // the app's stacked mobile layout at a readable fixed scale.
-  const desktop = colWidth >= 700;
-  const scale = desktop ? Math.min(1, colWidth / TWO_COL_INTERNAL) : MOBILE_SCALE;
+  // Assume desktop until measured (the layout effect corrects before paint), so
+  // the iframe never boots in one regime and re-lays-out into another.
+  const desktop = colWidth === 0 || colWidth >= 700;
+  const scale =
+    desktop && colWidth > 0 ? Math.min(BASE_SCALE, colWidth / TWO_COL_INTERNAL) : BASE_SCALE;
   const crop = desktop ? TOP_PAD * scale : 0;
   const boxStyle: React.CSSProperties = desktop
     ? { height: `min(${Math.round((CONTENT_BOTTOM - TOP_PAD) * scale)}px, calc(100svh - 8rem))` }
