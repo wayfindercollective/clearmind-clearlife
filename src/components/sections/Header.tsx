@@ -22,10 +22,10 @@ export function Header() {
         scrolled ? "bg-background border-b border-border" : "bg-transparent"
       )}
     >
-      <div className="container-tight flex items-center justify-between h-10 md:h-12">
+      <div className="container-tight flex items-center justify-between h-14 md:h-16">
         <a href="#top" className="flex items-center shrink-0" aria-label={content.brand.name}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={content.brand.logo} alt={content.brand.name} className="h-8 md:h-10 w-auto" />
+          <img src={content.brand.logo} alt={content.brand.name} className="h-12 md:h-14 w-auto" />
         </a>
 
         <nav className="hidden lg:flex items-center gap-9 text-sm">
