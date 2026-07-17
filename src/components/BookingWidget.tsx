@@ -126,10 +126,10 @@ export function BookingWidget() {
 
   const onIframeLoad = () => {
     setLoaded(true);
-    // Keep our spinner overlay up while the app runs its availability check -
-    // it relayouts the date grid when results land, which reads as a flicker if
-    // the user watches it. Reveal once that dance is (very likely) done.
-    setTimeout(() => setRevealed(true), 1400);
+    // Reveal as soon as the app's document is ready. A short 250ms hold + the
+    // 300ms opacity fade smooth the app's availability-check relayout without the
+    // long spinner that made the widget feel slow next to the instant video.
+    setTimeout(() => setRevealed(true), 250);
     // The embedded calendar auto-focuses a control on load, which makes the browser
     // scroll the whole page down to it (past the heading). Reset to top once, right
     // after the first load, to keep the confirmation heading in view.

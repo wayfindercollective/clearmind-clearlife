@@ -12,6 +12,11 @@ export default function ThankYou() {
   const t = content.thankYou;
   return (
     <div className="min-h-screen">
+      {/* Warm the DNS/TLS handshakes before the client renders the iframe/video,
+          so the external booking app and the R2 video start loading sooner. */}
+      <link rel="preconnect" href="https://wayfindercollective.io" crossOrigin="" />
+      <link rel="preconnect" href="https://pub-106377e0ae8b41d89f9b9a7a7a897795.r2.dev" crossOrigin="" />
+
       <header className="border-b border-border">
         <div className="mx-auto max-w-[82rem] px-6 flex items-center h-14 md:h-16">
           {/* eslint-disable-next-line @next/next/no-img-element */}
