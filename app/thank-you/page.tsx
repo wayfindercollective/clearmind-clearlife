@@ -49,8 +49,9 @@ export default function ThankYou() {
             <BookingWidget />
           </div>
 
-          {/* Steps then the booking video, stacked in the left column under the heading. */}
+          {/* Booking video then the steps, stacked in the left column under the heading. */}
           <div className="grid gap-5 lg:col-start-1 lg:row-start-2 lg:mt-2">
+            <BookingVSL />
             <ol className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1">
               {t.nextSteps.map((stepText, i) => (
                 <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3">
@@ -61,7 +62,6 @@ export default function ThankYou() {
                 </li>
               ))}
             </ol>
-            <BookingVSL />
           </div>
         </div>
       </main>
