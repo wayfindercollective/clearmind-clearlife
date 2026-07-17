@@ -56,9 +56,11 @@ export function Questionnaire() {
     } catch {}
     restored.current = true;
 
+    // no-www is canonical (www 301-redirects); warm the host the lead POST and the
+    // booking iframe actually use. Layout also preconnects this from first paint.
     const link = document.createElement("link");
     link.rel = "preconnect";
-    link.href = "https://www.wayfindercollective.io";
+    link.href = "https://wayfindercollective.io";
     document.head.appendChild(link);
     return () => {
       link.remove();

@@ -12,11 +12,6 @@ export default function ThankYou() {
   const t = content.thankYou;
   return (
     <div className="min-h-screen">
-      {/* Warm the DNS/TLS handshakes before the client renders the iframe/video,
-          so the external booking app and the R2 video start loading sooner. */}
-      <link rel="preconnect" href="https://wayfindercollective.io" crossOrigin="" />
-      <link rel="preconnect" href="https://pub-106377e0ae8b41d89f9b9a7a7a897795.r2.dev" crossOrigin="" />
-
       <header className="border-b border-border">
         <div className="mx-auto max-w-[82rem] px-6 flex items-center h-14 md:h-16">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -24,49 +19,40 @@ export default function ThankYou() {
         </div>
       </header>
 
-      {/* The calendar IS the page: it starts at the top edge and is sized to the
-          viewport (see BookingWidget). Confirmation copy + the 1-2-3 steps live in a
-          slim sidebar on desktop; on mobile the heading and widget come first and the
-          steps follow (grid placement below, not DOM order). */}
-      {/* Wider than container-tight and with a slimmer sidebar: every extra px of
-          calendar column raises the embed's scale (see BookingWidget), so the dates
-          render larger. */}
+      {/* Wide (82rem) so the calendar column below gets the room to scale up. */}
       <main className="mx-auto max-w-[82rem] px-6 pt-3 md:pt-4 pb-10">
-        {/* rows-[auto_1fr] pins row 1 to the heading's height so the steps list sits
-            directly under it instead of the tall widget inflating row 1. */}
-        <div className="grid gap-x-8 gap-y-5 lg:grid-cols-[minmax(240px,270px)_1fr] lg:grid-rows-[auto_1fr] lg:items-start">
-          <div>
-            <p className="mb-2.5 flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-muted font-semibold">
-              <span className="grid place-items-center h-5 w-5 rounded-full bg-primary text-black">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
-                  <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+        <div className="mb-4">
+          <p className="mb-2.5 flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-muted font-semibold">
+            <span className="grid place-items-center h-5 w-5 rounded-full bg-primary text-black">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M20 6 9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            {t.kicker}
+          </p>
+          <h1 className="text-2xl md:text-[1.7rem] leading-[1.1] font-semibold">{t.heading}</h1>
+        </div>
+
+        {/* The 1-2-3 steps run horizontally across the top (stacked only on phones). */}
+        <ol className="mb-5 grid gap-3 sm:grid-cols-3">
+          {t.nextSteps.map((stepText, i) => (
+            <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3">
+              <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
+                {i + 1}
               </span>
-              {t.kicker}
-            </p>
-            <h1 className="text-2xl md:text-[1.7rem] leading-[1.1] font-semibold">{t.heading}</h1>
-          </div>
+              <span className="text-sm text-foreground/90 leading-snug">{stepText}</span>
+            </li>
+          ))}
+        </ol>
 
-          {/* min-w-0: grid items default to min-width auto, so the widget's px-sized
-              box would stretch this cell and feed its own width back into the
-              column measurement (locking mobile into the desktop layout). */}
-          <div className="min-w-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
+        {/* Video (left) beside the calendar (right); calendar takes the remaining width.
+            min-w-0: grid items default to min-width auto, so the widget's px-sized box
+            would otherwise stretch its cell and feed its own width back into the column
+            measurement (locking mobile into the desktop layout). */}
+        <div className="grid gap-x-8 gap-y-5 lg:grid-cols-[minmax(240px,270px)_1fr] lg:items-start">
+          <BookingVSL />
+          <div className="min-w-0">
             <BookingWidget />
-          </div>
-
-          {/* Booking video then the steps, stacked in the left column under the heading. */}
-          <div className="grid gap-5 lg:col-start-1 lg:row-start-2 lg:mt-2">
-            <BookingVSL />
-            <ol className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1">
-              {t.nextSteps.map((stepText, i) => (
-                <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3">
-                  <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-foreground/90 leading-snug">{stepText}</span>
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
       </main>

@@ -54,6 +54,15 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
+      <head>
+        {/* Warm the booking origin from the FIRST page load (landing included), so
+            by the time a visitor submits and the /thank-you iframe requests it, DNS +
+            TLS are already done. The booking HTML itself is no-store (can't be
+            prefetched), so connection-warming is the win; no-www is the canonical
+            host - warming www would only land on its 301. R2 host serves the video. */}
+        <link rel="preconnect" href="https://wayfindercollective.io" crossOrigin="" />
+        <link rel="preconnect" href="https://pub-106377e0ae8b41d89f9b9a7a7a897795.r2.dev" crossOrigin="" />
+      </head>
       <body>
         <PostHogProvider>{children}</PostHogProvider>
         <Analytics />
