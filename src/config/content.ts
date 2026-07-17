@@ -235,6 +235,11 @@ export const content = {
   thankYou: {
     kicker: "Application received",
     heading: "You're in. Now book the call.",
+    // The clip Dan added to the booking page, mirrored under the steps here.
+    // Hotlinked from the booking app's Cloudflare R2 bucket - if it 404s, re-pull
+    // the current src from the live booking page's <video> element.
+    vslSrc:
+      "https://pub-106377e0ae8b41d89f9b9a7a7a897795.r2.dev/x17dt9eh99pa4tc4mj4dzw84fs7zc4aj/booking/vs7935jbabf7hrwh5mzryn83dn89yt95/a6d56c2f-a784-418c-93c1-340c5772f096.mp4",
     nextSteps: [
       "Book your call",
       "Add it to your calendar",

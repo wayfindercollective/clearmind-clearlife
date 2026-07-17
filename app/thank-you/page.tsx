@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { content } from "@/config/content";
 import { BookingWidget } from "@/components/BookingWidget";
+import { BookingVSL } from "@/components/BookingVSL";
 
 export const metadata: Metadata = {
   title: "You're in - Book Your Call | Clear Mind, Clear Life",
@@ -48,16 +49,20 @@ export default function ThankYou() {
             <BookingWidget />
           </div>
 
-          <ol className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1 lg:col-start-1 lg:row-start-2 lg:mt-2">
-            {t.nextSteps.map((stepText, i) => (
-              <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3">
-                <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
-                  {i + 1}
-                </span>
-                <span className="text-sm text-foreground/90 leading-snug">{stepText}</span>
-              </li>
-            ))}
-          </ol>
+          {/* Steps then the booking video, stacked in the left column under the heading. */}
+          <div className="grid gap-5 lg:col-start-1 lg:row-start-2 lg:mt-2">
+            <ol className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-1">
+              {t.nextSteps.map((stepText, i) => (
+                <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-surface p-3">
+                  <span className="mt-0.5 shrink-0 grid place-items-center h-6 w-6 rounded-full border border-primary/40 text-primary text-xs font-semibold">
+                    {i + 1}
+                  </span>
+                  <span className="text-sm text-foreground/90 leading-snug">{stepText}</span>
+                </li>
+              ))}
+            </ol>
+            <BookingVSL />
+          </div>
         </div>
       </main>
     </div>
