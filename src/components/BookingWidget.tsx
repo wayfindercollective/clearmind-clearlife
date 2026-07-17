@@ -80,7 +80,7 @@ export function BookingWidget() {
       ? 1
       : Math.max(0.6, Math.min(MAX_SCALE, availH / panelH, colWidth / panelW));
   const boxStyle: React.CSSProperties = desktop
-    ? { width: Math.round(panelW * scale), maxWidth: "100%", height: Math.round(panelH * scale) }
+    ? { width: Math.round(panelW * scale), maxWidth: "100%", height: Math.round(panelH * scale), marginInline: "auto" }
     : { height: Math.round((MOBILE_BOTTOM - MOBILE_TOP) * MOBILE_SCALE) };
   const frameStyle: React.CSSProperties = desktop
     ? {
